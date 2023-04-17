@@ -4,5 +4,5 @@ export interface User{
     surname:string,
     username:string,
     password:string,
-    birthDate:Date
+    birthDate:string
 }

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { User } from 'src/app/models/user';
 
 @Component({
   selector: 'app-register',
@@ -7,6 +8,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
+  
   registerForm = new FormGroup({
 
     email: new FormControl('', [Validators.required, Validators.email]),
@@ -18,6 +20,14 @@ export class RegisterComponent {
   });
 
   register():void{
+    let user:User = {
+      email: this.registerForm.value.email,
+      name: this.registerForm.value.name,
+      surname: this.registerForm.value.surname,
+      password: this.registerForm.value.password,
+      birthDate:this.registerForm.value.birthDate,
+      username:this.registerForm.value.surname
+    }
 
   }
 }
