@@ -8,7 +8,9 @@ import { RegisterComponent } from './layout/register/register.component';
 import { UploadFileComponent } from './layout/upload-file/upload-file.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Interceptor } from './services/interceptor';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
+
 
 @NgModule({
   declarations: [
@@ -21,8 +23,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    ReactiveFormsModule,
-    FormsModule
+
+    FormsModule,
+    ReactiveFormsModule
+
   ],
   providers: [{  provide: HTTP_INTERCEPTORS, useClass: Interceptor, multi: true },],
   bootstrap: [AppComponent]
