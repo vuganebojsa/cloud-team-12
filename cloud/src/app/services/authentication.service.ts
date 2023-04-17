@@ -32,8 +32,9 @@ export class AuthenticationService {
 
   }
 
-  logout():void{
+  logout():Promise<any>{
     localStorage.removeItem('user');
+    return Auth.signOut();
   }
 
   isLoggedIn(): boolean{
