@@ -32,7 +32,7 @@ export class RegisterComponent {
       surname: this.registerForm.value.surname,
       password: this.registerForm.value.password,
       birthDate:this.registerForm.value.birthDate,
-      username:this.registerForm.value.surname,
+      username:this.registerForm.value.username,
       code: ''
     };
     this.authenticationService.register(user)

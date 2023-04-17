@@ -41,13 +41,13 @@ export class AuthenticationService {
   }
 
   getRole():any{
-    if(this.isLoggedIn()){
-      const accessToken: string = localStorage.getItem('user');
-      const helper = new JwtHelperService();
+    // if(this.isLoggedIn()){
+    //   const accessToken: string = localStorage.getItem('user');
+    //   const helper = new JwtHelperService();
 
-      const role = helper.decodeToken(accessToken).role[0].authority;
-      return role;
-    }
+    //   const role = helper.decodeToken(accessToken).role[0].authority;
+    //   return role;
+    // }
     return null;
   }
 
