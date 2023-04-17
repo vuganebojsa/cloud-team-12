@@ -16,7 +16,7 @@ export class RegisterComponent {
     surname: new FormControl('', [Validators.required, Validators.minLength(3)]),
     password: new FormControl('', [Validators.required, Validators.minLength(10)]),
     birthDate: new FormControl('', [Validators.required]),
-    username: new FormControl('', [Validators.required, Validators.minLength(10)])
+    username: new FormControl('', [Validators.required, Validators.minLength(3)])
   });
 
   register():void{
