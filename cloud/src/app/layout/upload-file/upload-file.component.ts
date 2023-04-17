@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
+import {formatDate} from '@angular/common';
 
 @Component({
   selector: 'app-upload-file',
@@ -42,18 +43,31 @@ export class UploadFileComponent {
     const name = file.name;
     const type = file.type;
     const size = Number(file.size)/1024;
-    const modifiedAt = file.lastModifiedDate;
-    const createdAt = null;
+    //const modifiedAt = file.lastModifiedDate;
+    //const createdAt = null;
+    const date = new Date();
+    const options: Intl.DateTimeFormatOptions = { 
+      day: 'numeric',
+      month: 'numeric',
+      year: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      second: 'numeric',
+      hour12: false 
+    };
+    const formattedDate = date.toLocaleString('en-US', options);
     this.uploadForm.setValue({
       filename: name,
       description: this.uploadForm.value.description,
       tags: this.uploadForm.value.tags,
-      lastModifiedAt: modifiedAt,
+      lastModifiedAt: formattedDate,
       size: String(Math.round((size + Number.EPSILON) * 100) / 100
       ),
       type : type,
-      createdAt: createdAt
-    })
+      createdAt: formattedDate
+    });
+
+    
 
   }
 }
