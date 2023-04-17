@@ -6,6 +6,8 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './layout/login/login.component';
 import { RegisterComponent } from './layout/register/register.component';
 import { UploadFileComponent } from './layout/upload-file/upload-file.component';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { Interceptor } from './services/interceptor';
 
 @NgModule({
   declarations: [
@@ -16,9 +18,10 @@ import { UploadFileComponent } from './layout/upload-file/upload-file.component'
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [{  provide: HTTP_INTERCEPTORS, useClass: Interceptor, multi: true },],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
