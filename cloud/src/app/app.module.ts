@@ -10,6 +10,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Interceptor } from './services/interceptor';
 import {ReactiveFormsModule} from "@angular/forms";
 import { FormsModule } from '@angular/forms';
+import { EnterCodeComponent } from './layout/enter-code/enter-code.component';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { FormsModule } from '@angular/forms';
     AppComponent,
     LoginComponent,
     RegisterComponent,
-    UploadFileComponent
+    UploadFileComponent,
+    EnterCodeComponent
   ],
 
   imports: [

@@ -70,4 +70,8 @@ export class AuthenticationService {
      
     });
   }
+
+  activate(activateCode: string, userEmail: string): Promise<any>{
+    return Auth.confirmSignUp(userEmail, activateCode);
+  }
 }

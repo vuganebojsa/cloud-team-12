@@ -4,5 +4,6 @@ export interface User{
     surname:string,
     username:string,
     password:string,
-    birthDate:string
+    birthDate:string,
+    code:string
 }

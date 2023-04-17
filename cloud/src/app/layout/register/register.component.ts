@@ -32,11 +32,14 @@ export class RegisterComponent {
       surname: this.registerForm.value.surname,
       password: this.registerForm.value.password,
       birthDate:this.registerForm.value.birthDate,
-      username:this.registerForm.value.surname
+      username:this.registerForm.value.surname,
+      code: ''
     };
     this.authenticationService.register(user)
         .then(() =>{
-            console.log(user);
+          localStorage.setItem('userEmail', user.username);
+          console.log(user);
+            this.router.navigate(['verify']);
         }).catch((error) =>{
             console.log(error);
         })
