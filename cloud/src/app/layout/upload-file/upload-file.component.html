@@ -1,1 +1,84 @@
-<p>upload-file works!</p>
+<div class="upload">
+
+    <div class="row text-center">
+        <div class="col-12">
+            <h1>Upload A File</h1>
+        </div>
+    </div>
+
+    <div class="row text-center my-5">
+        <form upload
+        [formGroup]="uploadForm"
+        (ngSubmit)="upload()">
+        <div class="register-container">
+          <div class="row">
+                <div class="col-md-4 col-12 center dark-blue-background p-5">
+                    <div class="row text-center">
+                        <div class="col center reesen-big-lead-text join-us mb-3">
+                        Upload,<br>
+                        a file!
+                        </div>
+                        <div class="col center">
+                            <img src="../../../assets/upload.png" alt="Upload" class="logo-image">
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="col-md-8 col-12">
+                      <h1 class="reg-lbl mt-2">Upload File</h1>
+                      <div class="row">
+    
+                        <div class="col">
+                            <div class="mb-3 space">
+                                <label for="filename" class="label-reg">File Name</label>
+                                <input type="text" formControlName="filename"  class="form-control" id="filename" placeholder="18th_bday">
+                            </div>
+                            <div class="mb-3 space">
+                                <label for="description" class="label-reg">Description</label>
+                                <input type="text" formControlName="description" class="form-control" id="description" placeholder="This is my birthday video">
+                            </div>
+                            <div class="mb-3 space">
+                                <label for="tags" class="label-reg">Tags</label>
+                                <input type="text" formControlName="tags" class="form-control" id="tags" placeholder="Fun">
+                            </div>
+                            
+                            <div class="mb-3 space">
+                                <label for="type" class="label-reg ">Type</label>
+                                <input type="type" formControlName="type" class="form-control" id="type" placeholder="jpeg">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="mb-3 space">
+                                <label for="size" class="label-reg">Size in KB</label>
+                                <input type="text" formControlName="size" class="form-control" id="size" placeholder="200">
+                            </div>
+                            <div class="mb-3 space">
+                                <label for="createdAt" class="label-reg">Created at</label>
+                                <input type="text" formControlName="createdAt"  class="form-control" id="createdAt" placeholder="23/03/2012 10:30">
+                            </div>
+                            <div class="mb-3 space">
+                                <label for="lastModifiedAt" class="label-reg ">Last Modified At</label>
+                                <input type="text" formControlName="lastModifiedAt" class="form-control" id="lastModifiedAt" placeholder="10/10/2021 11:42">
+                            </div>
+                            <div class="mb-3">
+                                <label class="confirmation-button signup select-file-button">
+                                  <input type="file" (change)="handleUpload($event)" id="selectFile"/> Select File
+                                </label>
+                              </div>
+                          
+                        </div>
+    
+                    <div class="mb-3 text-center">
+                    <button type="submit" class="signup confirmation-button">Upload</button>
+                    </div>
+    
+                
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    </div>
+
+</div>
