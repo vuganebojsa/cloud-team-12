@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-enter-code',
@@ -24,8 +25,9 @@ export class EnterCodeComponent {
     .then(() =>{
       this.router.navigate(['login']);
     }).catch((error) =>{
-        console.log(error);
+      alert(error.message);
+      
     });
-    
+
   }
 }

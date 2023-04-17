@@ -39,7 +39,8 @@ export class LoginComponent {
       localStorage.setItem('user', JSON.stringify(result["storage"]["CognitoIdentityServiceProvider.5rkbo68cl0pfrjc7trj0nmrq9n.vuga.accessToken"]));
       this.authenticationService.setUser();
     }).catch((error) =>{
-        console.log(error);
+        alert(error.message);
+
     });
   
 

@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -41,7 +42,7 @@ export class RegisterComponent {
           console.log(user);
             this.router.navigate(['verify']);
         }).catch((error) =>{
-            console.log(error);
+          alert(error.message);
         })
 
   }
