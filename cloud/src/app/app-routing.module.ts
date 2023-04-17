@@ -10,6 +10,8 @@ const routes: Routes = [
   {path:'login', component:LoginComponent},
   {path:'upload-file', component:UploadFileComponent},
   {path:'verify', component:EnterCodeComponent},
+  {path:'**', component:LoginComponent},
+  {path:'', component:LoginComponent},
 ];
 
 @NgModule({

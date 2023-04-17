@@ -13,7 +13,7 @@ export class LoginComponent {
 
   loginForm = new FormGroup(
     {
-      email: new FormControl('', [Validators.required, Validators.minLength(4), Validators.email]),
+      email: new FormControl('', [Validators.required, Validators.minLength(2)]),
       password: new FormControl('', [Validators.required, Validators.minLength(8)])
     }
   );
@@ -31,21 +31,17 @@ export class LoginComponent {
     if(email === null || password === null || email === undefined || password == undefined)
       return;
 
-    this.authenticationService.login(email, password).subscribe({
 
-      next: (result) => {
-        localStorage.setItem('user', JSON.stringify(result["token"]));
-        this.authenticationService.setUser();
-        this.router.navigate(['/']);
-
-      },
-      error : (error) =>{
-        if(error instanceof HttpErrorResponse){
-          this.hasError = true;
-        }
-      }
-
+    this.authenticationService.login(email, password)
+    .then((result) =>{
+      alert('Successfull');
+      console.log(result);
+      localStorage.setItem('user', JSON.stringify(result["storage"]["CognitoIdentityServiceProvider.5rkbo68cl0pfrjc7trj0nmrq9n.vuga.accessToken"]));
+      this.authenticationService.setUser();
+    }).catch((error) =>{
+        console.log(error);
     });
+  
 
   }
 }

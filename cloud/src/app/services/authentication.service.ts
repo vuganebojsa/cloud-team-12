@@ -27,10 +27,8 @@ export class AuthenticationService {
 
    }
 
-   login(email:string, password:string):Observable<Token>{
-    return this.http.post<Token>('adresa cognita', {email: email, password: password}, {
-      headers:this.headers,
-    });
+   login(email:string, password:string):Promise<any>{
+    return Auth.signIn(email, password);
 
   }
 
@@ -54,7 +52,7 @@ export class AuthenticationService {
   }
 
   setUser(): void{
-    this.user$.next(this.getRole());
+    //this.user$.next(this.getRole());
   }
 
   register(user: User) : Promise<any> { 
