@@ -1,8 +1,6 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {  HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { Token } from '../models/token';
-import { JwtHelperService } from '@auth0/angular-jwt';
+import { BehaviorSubject } from 'rxjs';
 import { Amplify, Auth } from 'aws-amplify';
 import { environment } from 'src/environment/environment';
 import { User } from '../models/user';
@@ -11,19 +9,18 @@ import { User } from '../models/user';
 })
 export class AuthenticationService {
 
-  private headers = new HttpHeaders({
-    'Content-Type': 'application/json',
-    skip:'true',
-  });
 
-   user$ = new BehaviorSubject(null);
+  user$ = new BehaviorSubject(null);
   userState$ = this.user$.asObservable();
+  logedIn$ = new BehaviorSubject(false);
+  logedInState$ = this.logedIn$.asObservable();
 
-  constructor(private http:HttpClient) {
+  constructor() {
     Amplify.configure({
       Auth:environment.cognito
     });
     this.user$.next(this.getRole());
+    this.logedIn$.next(this.isLoggedIn());
 
    }
 
@@ -34,11 +31,12 @@ export class AuthenticationService {
 
   logout():Promise<any>{
     localStorage.removeItem('user');
+    this.setUser(null);
     return Auth.signOut();
   }
 
   isLoggedIn(): boolean{
-    return localStorage.getItem('user') != null;
+    return localStorage.getItem('user') !== null && localStorage.getItem('user') !== undefined;
   }
 
   getRole():any{
@@ -52,8 +50,8 @@ export class AuthenticationService {
     return null;
   }
 
-  setUser(): void{
-    //this.user$.next(this.getRole());
+  setUser(user: any): void{
+    this.user$.next(user);
   }
 
   register(user: User) : Promise<any> { 
