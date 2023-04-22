@@ -13,14 +13,11 @@ export class FileService {
   constructor(private http: HttpClient) { }
 
 
-  uploadFile(fileInfo: FileInfo, file: any): Observable<void>{
+  uploadFile(fileInfo: FileInfo, file: any): Observable<any>{
     let headers = new HttpHeaders();
     headers.append('Content-Type', fileInfo.type);
-    headers.append('Access-Control-Allow-Origin', '*');
-    headers.append('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-    headers.append('Access-Control-Allow-Headers', 'X-Requested-With, content-type, Authorization');
     let options = { headers: headers };
     console.log(fileInfo);
-    return this.http.put<void>(this.s3_bucket_path + fileInfo.filename, file, options);
+    return this.http.put<any>(this.s3_bucket_path + fileInfo.filename, file, options);
   }
 }
