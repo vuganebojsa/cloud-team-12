@@ -18,6 +18,7 @@ export class NavbarComponent implements OnInit{
     this.authenticationService.logout();
 
   }
+  
   ngOnInit(): void {
     this.authenticationService.userState$.subscribe((state) =>{
       if(state !== null && state !== undefined)

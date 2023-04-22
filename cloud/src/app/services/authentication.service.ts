@@ -12,18 +12,15 @@ export class AuthenticationService {
 
   user$ = new BehaviorSubject(null);
   userState$ = this.user$.asObservable();
-  logedIn$ = new BehaviorSubject(false);
-  logedInState$ = this.logedIn$.asObservable();
 
   constructor() {
     Amplify.configure({
       Auth:environment.cognito
     });
-    this.user$.next(this.getRole());
-    this.logedIn$.next(this.isLoggedIn());
+    this.user$.next(this.isLoggedIn());
 
-   }
-
+   
+  }
    login(email:string, password:string):Promise<any>{
     return Auth.signIn(email, password);
 

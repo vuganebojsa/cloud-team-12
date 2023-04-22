@@ -1,15 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import {formatDate} from '@angular/common';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-upload-file',
   templateUrl: './upload-file.component.html',
   styleUrls: ['./upload-file.component.css']
 })
-export class UploadFileComponent {
+export class UploadFileComponent implements OnInit{
   uploadForm = new FormGroup({
     filename: new FormControl('', [Validators.required, Validators.minLength(3)]),
     description: new FormControl('', [Validators.required, Validators.minLength(3)]),
@@ -21,10 +22,12 @@ export class UploadFileComponent {
   });
 
   file: string = '';
-  constructor( private userService: UserService, private router: Router){
+  constructor( private userService: UserService, private router: Router, private authenticationService: AuthenticationService){
 
   }
 
+  ngOnInit(): void {
+  }
 
   upload():void{
      if(this.uploadForm.valid){
