@@ -11,6 +11,10 @@ import { Interceptor } from './services/interceptor';
 import {ReactiveFormsModule} from "@angular/forms";
 import { FormsModule } from '@angular/forms';
 import { EnterCodeComponent } from './layout/enter-code/enter-code.component';
+import { HomeNavbarComponent } from './layout/home-navbar/home-navbar.component';
+import { NavbarComponent } from './layout/navbar/navbar.component';
+import { UserNavbarComponent } from './layout/user-navbar/user-navbar.component';
+import { HomeComponent } from './layout/home/home.component';
 
 
 @NgModule({
@@ -19,7 +23,11 @@ import { EnterCodeComponent } from './layout/enter-code/enter-code.component';
     LoginComponent,
     RegisterComponent,
     UploadFileComponent,
-    EnterCodeComponent
+    EnterCodeComponent,
+    HomeNavbarComponent,
+    NavbarComponent,
+    UserNavbarComponent,
+    HomeComponent
   ],
 
   imports: [

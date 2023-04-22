@@ -34,10 +34,11 @@ export class LoginComponent {
 
     this.authenticationService.login(email, password)
     .then((result) =>{
-      alert('Successfull');
-      console.log(result);
-      localStorage.setItem('user', JSON.stringify(result["storage"]["CognitoIdentityServiceProvider.5rkbo68cl0pfrjc7trj0nmrq9n.vuga.accessToken"]));
-      this.authenticationService.setUser();
+      const keyPrefix = result["keyPrefix"];
+      const username = result["storage"][keyPrefix+".LastAuthUser"];
+      localStorage.setItem('user', JSON.stringify(result["storage"][keyPrefix + "." +username+".accessToken"]));
+      this.authenticationService.setUser(result);
+      this.router.navigate(['upload-file']);
     }).catch((error) =>{
         alert(error.message);
 
