@@ -1,4 +1,5 @@
 export interface FileInfo{
+    id?:number,
     filename: string,
     description: string,
     tags: string,
@@ -6,4 +7,7 @@ export interface FileInfo{
     size: number,
     createdAt: string,
     lastModifiedAt: string,
+    username?:string,
+    bucketName?:string,
+    folderName?:string
 }

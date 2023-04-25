@@ -50,6 +50,9 @@ export class UploadFileComponent implements OnInit{
     console.log(this.loadedFile);
     this.fileService.uploadFile(this.fileInfo, this.loadedFile).subscribe(() =>{
       console.log(this.fileInfo);
+      this.fileService.uploadFileToDynamoDb(this.fileInfo).subscribe((result) =>{
+        console.log(result);
+      })
   });
 
   }
