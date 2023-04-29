@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
-import {formatDate} from '@angular/common';
 import { AuthenticationService } from 'src/app/services/authentication.service';
-
+import { FileInfo } from 'src/app/models/FileInfo';
+import { FileService } from 'src/app/services/file.service';
 @Component({
   selector: 'app-upload-file',
   templateUrl: './upload-file.component.html',
@@ -20,9 +20,19 @@ export class UploadFileComponent implements OnInit{
     createdAt: new FormControl('', [Validators.required]),
     lastModifiedAt: new FormControl('', [Validators.required]),
   });
-
+  fileInfo: FileInfo = {
+    type: '',
+    filename: '',
+    description: '',
+    createdAt: '',
+    lastModifiedAt: '',
+    size: 0,
+    tags: ''
+  };
   file: string = '';
-  constructor( private userService: UserService, private router: Router, private authenticationService: AuthenticationService){
+  loadedFile: any;
+  constructor(
+    private fileService: FileService){
 
   }
 
@@ -33,21 +43,27 @@ export class UploadFileComponent implements OnInit{
      if(this.uploadForm.valid){
       alert("Successfully uploaded a file!");
     }
+    
+    this.fileInfo.description = this.uploadForm.value.description;
+    this.fileInfo.tags = this.uploadForm.value.tags;
+    this.fileService.uploadFile(this.fileInfo, this.loadedFile).subscribe(() =>{
+      this.fileService.uploadFileToDynamoDb(this.fileInfo).subscribe((result) =>{
+        console.log(result);
+      })
+  });
 
   }
 
   handleUpload(event):void{
-    const file = event.target.files[0];
+    this.loadedFile = event.target.files[0];
     const reader = new FileReader();
-    reader.readAsDataURL(file);
+    reader.readAsDataURL( this.loadedFile);
     reader.onload = () => {
         this.file = reader.result.toString();
     };
-    const name = file.name;
-    const type = file.type;
-    const size = Number(file.size)/1024;
-    //const modifiedAt = file.lastModifiedDate;
-    //const createdAt = null;
+    const name =  this.loadedFile.name;
+    const type =  this.loadedFile.type;
+    const size = Number( this.loadedFile.size)/1024;
     const date = new Date();
     const options: Intl.DateTimeFormatOptions = { 
       day: 'numeric',
@@ -69,8 +85,14 @@ export class UploadFileComponent implements OnInit{
       type : type,
       createdAt: formattedDate
     });
+    this.fileInfo.filename = name;
+    this.fileInfo.description = this.uploadForm.value.description;
+    this.fileInfo.tags = this.uploadForm.value.tags;
+    this.fileInfo.lastModifiedAt = formattedDate;
+    this.fileInfo.createdAt = formattedDate;
+    this.fileInfo.size = Math.round((size + Number.EPSILON) * 100) / 100;
+    this.fileInfo.type = type;
 
-    
-
+  
   }
 }
