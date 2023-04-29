@@ -46,10 +46,7 @@ export class UploadFileComponent implements OnInit{
     
     this.fileInfo.description = this.uploadForm.value.description;
     this.fileInfo.tags = this.uploadForm.value.tags;
-    console.log(this.fileInfo);
-    console.log(this.loadedFile);
     this.fileService.uploadFile(this.fileInfo, this.loadedFile).subscribe(() =>{
-      console.log(this.fileInfo);
       this.fileService.uploadFileToDynamoDb(this.fileInfo).subscribe((result) =>{
         console.log(result);
       })
@@ -67,8 +64,6 @@ export class UploadFileComponent implements OnInit{
     const name =  this.loadedFile.name;
     const type =  this.loadedFile.type;
     const size = Number( this.loadedFile.size)/1024;
-    //const modifiedAt = file.lastModifiedDate;
-    //const createdAt = null;
     const date = new Date();
     const options: Intl.DateTimeFormatOptions = { 
       day: 'numeric',
