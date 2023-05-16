@@ -18,23 +18,19 @@ export class FileService {
 
   getFolderName(type:string): string{
     let folder: string = '';
-    if(type.toLowerCase().includes("image")) folder = 'photos';
-    else if(type.toLowerCase().includes("text")) folder = 'text';
-    else if(type.toLowerCase().includes("audio")) folder = 'audio';
-    else if(type.toLowerCase().includes("video")) folder = 'videos';
-    else folder = 'other';
     return folder;
   }
   uploadFile(fileInfo: FileInfo, file: any): Observable<any>{
-    let type = this.getFolderName(fileInfo.type);
-    fileInfo.username = this.tokenDecoderService.getDecodedAccesToken["username"];
-    return this.http.put<any>(this.s3_bucket_path + type + "/" + fileInfo.filename, file);
+    console.log(fileInfo);
+    console.log(file);
+    return this.http.put<any>(this.s3_bucket_path + fileInfo.filename, file);
   }
 
   uploadFileToDynamoDb(fileInfo: FileInfo): Observable<FileInfo>{
     let type = this.getFolderName(fileInfo.type);
     fileInfo.bucketName = 'bivuja-bucket';
     fileInfo.folderName = type;
+    console.log(this.tokenDecoderService.getDecodedAccesToken);
     fileInfo.username = this.tokenDecoderService.getDecodedAccesToken["username"];
     console.log(fileInfo);
     return this.http.post<FileInfo>(this.dynamoPath, fileInfo);

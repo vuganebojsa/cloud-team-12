@@ -5,6 +5,7 @@ import { UserService } from 'src/app/services/user.service';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { FileInfo } from 'src/app/models/FileInfo';
 import { FileService } from 'src/app/services/file.service';
+import { TokenDecoderService } from 'src/app/services/token-decoder.service';
 @Component({
   selector: 'app-upload-file',
   templateUrl: './upload-file.component.html',
@@ -32,7 +33,7 @@ export class UploadFileComponent implements OnInit{
   file: string = '';
   loadedFile: any;
   constructor(
-    private fileService: FileService){
+    private fileService: FileService, private tokenDecoderService: TokenDecoderService){
 
   }
 
@@ -43,7 +44,6 @@ export class UploadFileComponent implements OnInit{
      if(this.uploadForm.valid){
       alert("Successfully uploaded a file!");
     }
-    
     this.fileInfo.description = this.uploadForm.value.description;
     this.fileInfo.tags = this.uploadForm.value.tags;
     this.fileService.uploadFile(this.fileInfo, this.loadedFile).subscribe(() =>{
@@ -56,6 +56,11 @@ export class UploadFileComponent implements OnInit{
 
   handleUpload(event):void{
     this.loadedFile = event.target.files[0];
+    const newFilename = this.tokenDecoderService.getDecodedAccesToken()['username'] + '-'+this.loadedFile.name; // Specify the new filename
+  
+    // Create a new File object with the updated filename
+    const modifiedFile = new File([this.loadedFile], newFilename, { type: this.loadedFile.type });
+    this.loadedFile = modifiedFile;
     const reader = new FileReader();
     reader.readAsDataURL( this.loadedFile);
     reader.onload = () => {

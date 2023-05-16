@@ -36,6 +36,10 @@ export class RegisterComponent {
       username:this.registerForm.value.username,
       code: ''
     };
+    if(user.username.includes('-')){
+      alert('Invalid username. Please remove the character -.');
+      return;
+    }
     this.authenticationService.register(user)
         .then(() =>{
           localStorage.setItem('userEmail', user.username);
