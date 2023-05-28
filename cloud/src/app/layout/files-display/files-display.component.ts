@@ -11,10 +11,20 @@ export class FilesDisplayComponent implements OnInit{
   
   isLoaded = false;
   files: FileInfo[];
+  currentFolder = '';
+  currentFolders = new Set();
+  currentLevel = 0;
   ngOnInit(): void {
     this.fileService.getFiles().subscribe({
       next:(result) =>{
-          console.log(result);
+          this.files = result;
+          this.isLoaded = true;
+          for(let f of this.files){
+            if(f.folderName !== ''){
+              this.currentFolders.add(f.folderName.split('/')[0].toString());
+            }
+          }
+          console.log(this.currentFolders);
       },
       error:(err) =>{
 
@@ -28,6 +38,9 @@ export class FilesDisplayComponent implements OnInit{
 
   }
 
+  public redisplayItemsAndFolder(folder: string): void {
+    alert(folder);
+  }
   
 
 }
