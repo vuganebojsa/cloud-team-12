@@ -12,6 +12,7 @@ export class FileService {
   s3_bucket_path: string = ' https://0poeduyada.execute-api.eu-central-1.amazonaws.com/dev/post-file/';
   dynamoPath: string = 'https://0poeduyada.execute-api.eu-central-1.amazonaws.com/dev/post-file-lambda';
 
+  get_all_files_path: string = ' https://0poeduyada.execute-api.eu-central-1.amazonaws.com/dev/get-files/';
   constructor(private http: HttpClient, private tokenDecoderService: TokenDecoderService) { 
 
   }
@@ -33,5 +34,13 @@ export class FileService {
     fileInfo.username = this.tokenDecoderService.getDecodedAccesToken()["username"];
     console.log(fileInfo);
     return this.http.post<FileInfo>(this.dynamoPath, fileInfo);
+  }
+
+
+  getFiles(): Observable<FileInfo[]>{
+    let username = this.tokenDecoderService.getDecodedAccesToken()["username"];
+    let bucket = 'bivuja-bucket'
+    return this.http.get<FileInfo[]>(this.get_all_files_path + bucket + '/' + username);
+
   }
 }

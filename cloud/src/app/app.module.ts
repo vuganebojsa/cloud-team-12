@@ -16,6 +16,8 @@ import { NavbarComponent } from './layout/navbar/navbar.component';
 import { UserNavbarComponent } from './layout/user-navbar/user-navbar.component';
 import { HomeComponent } from './layout/home/home.component';
 import { FilesDisplayComponent } from './layout/files-display/files-display.component';
+import { SingleFileDisplayComponent } from './layout/single-file-display/single-file-display.component';
+import { SingleFolderDisplayComponent } from './layout/single-folder-display/single-folder-display.component';
 
 
 @NgModule({
@@ -29,7 +31,9 @@ import { FilesDisplayComponent } from './layout/files-display/files-display.comp
     NavbarComponent,
     UserNavbarComponent,
     HomeComponent,
-    FilesDisplayComponent
+    FilesDisplayComponent,
+    SingleFileDisplayComponent,
+    SingleFolderDisplayComponent
   ],
 
   imports: [
