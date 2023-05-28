@@ -2,11 +2,14 @@
     <div class="col-12 mt-3">
         <h1>All Files</h1>
     </div>
+    <div class="col-12 m-3">
+        <h3>Current Directory: {{this.currentFolder}}</h3>
+    </div> 
 </div>
 <div *ngIf="isLoaded===true">
-    <div class="row m-5 text-center" *ngFor="let file of files">
+    <div class="row m-5 text-center" *ngFor="let file of currentFiles">
         <div class="col-3 m-3">
-            <app-single-file-display [file]="file" *ngIf="file.folderName==this.currentFolder" class="hover-folder"></app-single-file-display>
+            <app-single-file-display [file]="file" class="hover-folder"></app-single-file-display>
         </div>
     </div>
     <div class="row m-5 text-center" *ngFor="let folder of currentFolders">
