@@ -40,6 +40,7 @@ export class FilesDisplayComponent implements OnInit{
   }
 
   public redisplayItemsAndFolder(folder: string): void { 
+      
       let new_files =  new Array();
       this.currentFolder += folder+'/';
       for(let f of this.allFiles){
@@ -53,8 +54,9 @@ export class FilesDisplayComponent implements OnInit{
       for(let f of this.allFiles){
         // slicice/moje/sdadas/fsafsa
         if(f.folderName !== '' && f.folderName.includes("/")){
+          
           let value = f.folderName.split('/')[this.currentLevel].toString();
-          let allSplit = f.folderName.split('/')
+          let allSplit = f.folderName.split('/');
           let currentLevelInThisFolder = '';
           for(let i = 0;i<this.currentLevel;i++){
             currentLevelInThisFolder += allSplit[i].toString() + '/';
@@ -68,8 +70,57 @@ export class FilesDisplayComponent implements OnInit{
       }
   }
   
+  goBackFolder(){
+
+    if(this.currentFolder === '')return;
+    this.currentLevel -=1;
+    let currentLevelInThisFolder = '';
+    if(this.currentLevel == 0) this.currentFolder = '';
+
+    else{
+      let oldFolders = this.currentFolder.split('/');
+      for(let i =0;i<this.currentLevel;i++){
+        currentLevelInThisFolder += oldFolders[i].toString() + '/';
+
+      }
+      
+    }
+    this.currentFolder = currentLevelInThisFolder;
+    let new_files =  new Array();
+    for(let f of this.allFiles){
+      
+      if(f.folderName===this.currentFolder){
+        new_files.push(f);
+      }
+    }
+
+    this.currentFiles = new_files;
+    this.currentFolders.clear();
+
+    for(let f of this.allFiles){
+      // slicice/moje/sdadas/fsafsa
+      if(f.folderName !== ''){
+        let value = f.folderName.split('/')[this.currentLevel].toString();
+        let allSplit = f.folderName.split('/')
+        let currentLevelInThisFolder = '';
+        for(let i = 0;i<this.currentLevel;i++){
+          currentLevelInThisFolder += allSplit[i].toString() + '/';
+        }
+        if(currentLevelInThisFolder === this.currentFolder){
+          this.currentFolders.add(value);
+
+        }
+        
+      }
+    }
+      
+    
+  }
+
   public constructor(private fileService: FileService){
 
   }
+
+
 
 }
