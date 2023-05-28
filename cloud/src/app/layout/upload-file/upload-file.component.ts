@@ -27,7 +27,7 @@ export class UploadFileComponent implements OnInit{
     description: '',
     createdAt: '',
     lastModifiedAt: '',
-    size: 0,
+    size: '',
     tags: ''
   };
   file: string = '';
@@ -46,11 +46,23 @@ export class UploadFileComponent implements OnInit{
     }
     this.fileInfo.description = this.uploadForm.value.description;
     this.fileInfo.tags = this.uploadForm.value.tags;
-    this.fileService.uploadFile(this.fileInfo, this.loadedFile).subscribe(() =>{
-      this.fileService.uploadFileToDynamoDb(this.fileInfo).subscribe((result) =>{
-        console.log(result);
-      })
-  });
+    this.fileService.uploadFile(this.fileInfo, this.loadedFile).subscribe(
+      {
+        next:(result) =>{
+          console.log(result);
+
+          this.fileService.uploadFileToDynamoDb(this.fileInfo).subscribe((result) =>{
+            console.log(result);
+          })
+        },
+        error:(error) =>{
+          console.log(error);
+          this.fileService.uploadFileToDynamoDb(this.fileInfo).subscribe((result) =>{
+            console.log(result);
+          })
+        }
+      }
+    );
 
   }
 
@@ -95,7 +107,7 @@ export class UploadFileComponent implements OnInit{
     this.fileInfo.tags = this.uploadForm.value.tags;
     this.fileInfo.lastModifiedAt = formattedDate;
     this.fileInfo.createdAt = formattedDate;
-    this.fileInfo.size = Math.round((size + Number.EPSILON) * 100) / 100;
+    this.fileInfo.size = String(Math.round((size + Number.EPSILON) * 100) / 100);
     this.fileInfo.type = type;
 
   

@@ -4,7 +4,7 @@ export interface FileInfo{
     description: string,
     tags: string,
     type: string,
-    size: number,
+    size: string,
     createdAt: string,
     lastModifiedAt: string,
     username?:string,

@@ -9,8 +9,8 @@ import { TokenDecoderService } from './token-decoder.service';
 })
 export class FileService {
 
-  s3_bucket_path: string = 'https://cngfolor3e.execute-api.eu-central-1.amazonaws.com/dev/bivuja-bucket/';
-  dynamoPath: string = 'https://cngfolor3e.execute-api.eu-central-1.amazonaws.com/dev/files';
+  s3_bucket_path: string = ' https://0poeduyada.execute-api.eu-central-1.amazonaws.com/dev/post-file/';
+  dynamoPath: string = 'https://0poeduyada.execute-api.eu-central-1.amazonaws.com/dev/post-file-lambda';
 
   constructor(private http: HttpClient, private tokenDecoderService: TokenDecoderService) { 
 
@@ -23,15 +23,14 @@ export class FileService {
   uploadFile(fileInfo: FileInfo, file: any): Observable<any>{
     console.log(fileInfo);
     console.log(file);
-    return this.http.put<any>(this.s3_bucket_path + fileInfo.filename, file);
+    return this.http.post<any>(this.s3_bucket_path + 'bivuja-bucket/' + fileInfo.filename, file);
   }
 
   uploadFileToDynamoDb(fileInfo: FileInfo): Observable<FileInfo>{
     let type = this.getFolderName(fileInfo.type);
     fileInfo.bucketName = 'bivuja-bucket';
     fileInfo.folderName = type;
-    console.log(this.tokenDecoderService.getDecodedAccesToken);
-    fileInfo.username = this.tokenDecoderService.getDecodedAccesToken["username"];
+    fileInfo.username = this.tokenDecoderService.getDecodedAccesToken()["username"];
     console.log(fileInfo);
     return this.http.post<FileInfo>(this.dynamoPath, fileInfo);
   }
