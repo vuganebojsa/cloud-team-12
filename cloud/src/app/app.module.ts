@@ -15,6 +15,7 @@ import { HomeNavbarComponent } from './layout/home-navbar/home-navbar.component'
 import { NavbarComponent } from './layout/navbar/navbar.component';
 import { UserNavbarComponent } from './layout/user-navbar/user-navbar.component';
 import { HomeComponent } from './layout/home/home.component';
+import { FilesDisplayComponent } from './layout/files-display/files-display.component';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import { HomeComponent } from './layout/home/home.component';
     HomeNavbarComponent,
     NavbarComponent,
     UserNavbarComponent,
-    HomeComponent
+    HomeComponent,
+    FilesDisplayComponent
   ],
 
   imports: [
