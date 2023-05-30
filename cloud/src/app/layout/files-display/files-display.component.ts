@@ -18,7 +18,7 @@ export class FilesDisplayComponent implements OnInit{
   currentFolders = new Array();
   allFolders: FolderInfo[];
   new_folder_name:string = '';
-
+  upload_pressed = false;
   currentLevel = 0;
   ngOnInit(): void {
 
@@ -176,7 +176,7 @@ export class FilesDisplayComponent implements OnInit{
 
   }
   uploadToCurrentFolder(): void{
-
+    this.upload_pressed = !this.upload_pressed;
   }
 
   showFile(file: FileInfo):void{

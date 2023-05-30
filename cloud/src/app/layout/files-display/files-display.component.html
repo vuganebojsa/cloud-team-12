@@ -26,6 +26,11 @@
     </div> 
 </div>
 
+<div class="row text-center" *ngIf="upload_pressed">
+    <div class="col-12">
+        <app-upload-file [folderName]="this.currentFolder"></app-upload-file>
+    </div>
+</div>
 <div *ngIf="isLoaded===true" class="row">
     
         <div class="col-3 m-3" (click)="showFile(file)" *ngFor="let file of currentFiles">

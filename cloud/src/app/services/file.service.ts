@@ -16,7 +16,7 @@ export class FileService {
   post_folder_path: string = 'https://0poeduyada.execute-api.eu-central-1.amazonaws.com/dev/post-folder-lambda';
   get_folders_path: string = 'https://0poeduyada.execute-api.eu-central-1.amazonaws.com/dev/get-folders/';
   post_folder_path_s3: string = 'https://0poeduyada.execute-api.eu-central-1.amazonaws.com/dev/post-folder-s3';
-
+  post_file_to_folder_path: string = ' https://0poeduyada.execute-api.eu-central-1.amazonaws.com/dev/post-file-to-folder/';
   dynamoPath: string = 'https://0poeduyada.execute-api.eu-central-1.amazonaws.com/dev/post-file-lambda';
 
   get_all_files_path: string = 'https://0poeduyada.execute-api.eu-central-1.amazonaws.com/dev/get-files/';
@@ -29,9 +29,14 @@ export class FileService {
     let folder: string = '';
     return folder;
   }
+  uploadFileToFolder(fileInfo: FileInfo, file: any): Observable<any>{
+    let username = this.tokenDecoderService.getDecodedAccesToken()["username"];
+    fileInfo.username = username;
+    fileInfo.filename =  btoa(fileInfo.username + '-' + fileInfo.folderName + fileInfo.filename);
+    return this.http.post<any>(this.post_file_to_folder_path + 'bivuja-bucket/' + fileInfo.filename, file);
+  }
   uploadFile(fileInfo: FileInfo, file: any): Observable<any>{
-    console.log(fileInfo);
-    console.log(file);
+
     return this.http.post<any>(this.s3_bucket_path + 'bivuja-bucket/' + fileInfo.filename, file);
   }
   postFolder(folder: FolderInfo): Observable<any>{
@@ -56,9 +61,9 @@ export class FileService {
 
 
   uploadFileToDynamoDb(fileInfo: FileInfo): Observable<FileInfo>{
-    let type = this.getFolderName(fileInfo.type);
+    
     fileInfo.bucketName = 'bivuja-bucket';
-    fileInfo.folderName = type;
+    if(fileInfo.folderName === undefined || fileInfo.folderName === null) fileInfo.folderName = ''; 
     fileInfo.username = this.tokenDecoderService.getDecodedAccesToken()["username"];
     console.log(fileInfo);
     return this.http.post<FileInfo>(this.dynamoPath, fileInfo);

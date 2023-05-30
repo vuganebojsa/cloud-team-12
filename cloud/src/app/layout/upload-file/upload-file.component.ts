@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
@@ -21,6 +21,8 @@ export class UploadFileComponent implements OnInit{
     createdAt: new FormControl('', [Validators.required]),
     lastModifiedAt: new FormControl('', [Validators.required]),
   });
+  @Input() folderName: string = '';
+
   fileInfo: FileInfo = {
     type: '',
     filename: '',
@@ -36,6 +38,9 @@ export class UploadFileComponent implements OnInit{
     private fileService: FileService, private tokenDecoderService: TokenDecoderService){
 
   }
+  isFolderNameValid():boolean{
+    return this.folderName !== '' && this.folderName !== null && this.folderName !== undefined;
+  }
 
   ngOnInit(): void {
   }
@@ -46,23 +51,59 @@ export class UploadFileComponent implements OnInit{
     }
     this.fileInfo.description = this.uploadForm.value.description;
     this.fileInfo.tags = this.uploadForm.value.tags;
-    this.fileService.uploadFile(this.fileInfo, this.loadedFile).subscribe(
-      {
-        next:(result) =>{
-          console.log(result);
+    if(this.isFolderNameValid()){
+      this.fileInfo.folderName = this.folderName;
 
-          this.fileService.uploadFileToDynamoDb(this.fileInfo).subscribe((result) =>{
+      let cross_index = this.fileInfo.filename.indexOf('-');
+      this.fileInfo.filename = this.fileInfo.filename.slice(cross_index + 1, this.fileInfo.filename.length);
+
+      let dynamofilename = this.fileInfo.filename;
+      this.fileService.uploadFileToFolder(this.fileInfo, this.loadedFile).subscribe(
+        {
+          next:(result) =>{
             console.log(result);
-          })
-        },
-        error:(error) =>{
-          console.log(error);
-          this.fileService.uploadFileToDynamoDb(this.fileInfo).subscribe((result) =>{
-            console.log(result);
-          })
+            this.fileInfo.folderName = this.folderName.slice(0, this.folderName.length - 1);
+            console.log(this.fileInfo.folderName);
+            this.fileInfo.filename = dynamofilename;
+            this.fileService.uploadFileToDynamoDb(this.fileInfo).subscribe((res) =>{
+              console.log(res);
+            })
+          },
+          error:(error) =>{
+            console.log(error);
+            
+            this.fileInfo.folderName = this.folderName.slice(0, this.folderName.length - 1);
+            this.fileInfo.filename = dynamofilename;
+            this.fileService.uploadFileToDynamoDb(this.fileInfo).subscribe((res) =>{
+              console.log(res);
+            })
+          }
         }
-      }
-    );
+      );
+
+
+    
+    }
+    else{
+      console.log('Nevalidno');
+      this.fileService.uploadFile(this.fileInfo, this.loadedFile).subscribe(
+        {
+          next:(result) =>{
+            console.log(result);
+            this.fileService.uploadFileToDynamoDb(this.fileInfo).subscribe((result) =>{
+              console.log(result);
+            })
+          },
+          error:(error) =>{
+            console.log(error);
+            
+            this.fileService.uploadFileToDynamoDb(this.fileInfo).subscribe((result) =>{
+              console.log(result);
+            })
+          }
+        }
+      );
+    }
 
   }
 
