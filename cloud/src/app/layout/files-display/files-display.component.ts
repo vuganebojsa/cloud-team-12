@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FileInfo } from 'src/app/models/FileInfo';
+import { FolderInfo } from 'src/app/models/Folder';
 import { FileService } from 'src/app/services/file.service';
+import { Renderer2 } from '@angular/core'
 
 @Component({
   selector: 'app-files-display',
@@ -13,24 +15,38 @@ export class FilesDisplayComponent implements OnInit{
   allFiles: FileInfo[];
   currentFiles=  new Array();
   currentFolder = '';
-  currentFolders = new Set();
+  currentFolders = new Array();
+  allFolders: FolderInfo[];
+  new_folder_name:string = '';
+
   currentLevel = 0;
   ngOnInit(): void {
+
     this.fileService.getFiles().subscribe({
       next:(result) =>{
           this.allFiles = result;
-          this.isLoaded = true;
-          for(let f of this.allFiles){
-            if(f.folderName !== ''){
-              this.currentFolders.add(f.folderName.split('/')[0].toString());
-            }
-          }
           for(let f of this.allFiles){
             if(f.folderName === ''){
               this.currentFiles.push(f);
 
             }
           }
+
+          this.fileService.getFolders().subscribe({
+            next: (res) =>{
+                this.allFolders = res;
+                console.log(this.allFolders);
+                for(let f of this.allFolders){
+                  if(f.path==='')
+                    this.currentFolders.push(f);
+                }
+                this.isLoaded = true;
+
+            },
+            error:(error) =>{
+
+            }
+          })
       },
       error:(err) =>{
       }
@@ -47,31 +63,20 @@ export class FilesDisplayComponent implements OnInit{
           new_files.push(f);
         }
       }
-      this.currentFolder += '/';
-      this.currentLevel += 1;
       this.currentFiles = new_files;
-      this.currentFolders.clear();
-      for(let f of this.allFiles){
-        // slicice/moje/sdadas/fsafsa
-        if(f.folderName !== '' && f.folderName.includes("/")){
-          
-          let value = f.folderName.split('/')[this.currentLevel].toString();
-          let allSplit = f.folderName.split('/');
-          let currentLevelInThisFolder = '';
-          for(let i = 0;i<this.currentLevel;i++){
-            if(i != this.currentLevel - 1)
-            currentLevelInThisFolder += allSplit[i].toString() + '/';
-          else
-            currentLevelInThisFolder += allSplit[i].toString();
-            
-          }
-          if(currentLevelInThisFolder + '/' === this.currentFolder){
-            this.currentFolders.add(value);
 
-          }
-          
+      this.currentFolder += '/';
+      let new_folders = new Array();
+      for(let f of this.allFolders){
+        if(f.path===this.currentFolder){
+          new_folders.push(f);
+
         }
       }
+      
+      this.currentLevel += 1;
+      this.currentFolders = new_folders;
+     
   }
   
   goBackFolder(){
@@ -88,10 +93,16 @@ export class FilesDisplayComponent implements OnInit{
     }
     this.currentFolder = newCurrentFolder;
     this.currentFiles.length = 0;
+    this.currentFolders.length = 0;
     if(this.currentLevel == 0){
       for(let f of this.allFiles){
         if(f.folderName ===this.currentFolder){
             this.currentFiles.push(f);
+        }
+      }
+      for(let f of this.allFolders){
+        if(f.path===this.currentFolder){
+            this.currentFolders.push(f);
         }
       }
 
@@ -103,34 +114,97 @@ export class FilesDisplayComponent implements OnInit{
             this.currentFiles.push(f);
         }
       }
+      for(let f of this.allFolders){
+        if(f.path===this.currentFolder){
+            this.currentFolders.push(f);
+        }
+      }
 
     }
-    this.currentFolders.clear();
-    let targetChar = '/';
-    for(let f of this.allFiles){
-        if(f.folderName !== '' && f.folderName.includes('/') && this.currentLevel != 0){
-          let lastIndex = f.folderName.lastIndexOf(targetChar);
-          if(lastIndex != -1){
-            this.currentFolders.add(f.folderName.substring(lastIndex + 1, f.folderName.length));
-          }
-         
-        }if(f.folderName !== '' && !f.folderName.includes('/') && this.currentLevel == 0){
-          this.currentFolders.add(f.folderName);
-        }
-      
-    }
+    
 
   }
 
+  createFolder():void{
+    this.new_folder_name = this.new_folder_name.trim();
+    if(this.new_folder_name === ''){
+      return;
+    }else if(this.new_folder_name.includes('/')){
+      return;
+    }
+    for(let f of this.currentFolders){
+      if(this.currentFolder + this.new_folder_name === f.path + f.foldername){
+        alert('Folder with that name already exists');
+        return;
+      }
+    }
+  
+
+    let folderInfo: FolderInfo ={
+      foldername: this.new_folder_name,
+      path:this.currentFolder
+
+    } 
+    this.fileService.postFolder(folderInfo).subscribe({
+      next:(result) =>{
+          
+        this.fileService.postFolderS3(this.currentFolder + this.new_folder_name + '/').subscribe({
+          next:(res) =>{
+
+          },
+          error:(error) =>{
+
+          }
+        })
+        this.currentFolders.push(folderInfo);
+        this.allFolders.push(folderInfo);
+      },
+      error:(err) =>{
+        this.fileService.postFolderS3(this.currentFolder + this.new_folder_name + '/').subscribe({
+          next:(res) =>{
+              
+          },
+          error:(error) =>{
+
+          }
+        })
+        this.currentFolders.push(folderInfo);
+        this.allFolders.push(folderInfo);
+
+      }
+    })
+
+  }
   uploadToCurrentFolder(): void{
 
   }
 
   showFile(file: FileInfo):void{
+      this.fileService.getFile(file.folderName + '/' + file.filename).subscribe({
+        next:(res) =>{
+          const blb= new Blob([res], {type: file.type});
 
+          var reader = new FileReader();
+          reader.onload = function() {
+            const src = `data:${file.type};base64,${reader.result}`;
+            
+            const link = document.createElement("a");
+            link.href = src;
+            link.download = file.filename;
+            
+            link.target = file.filename;
+            link.click();
+          }
+          reader.readAsText(blb);
+           
+        },
+        error:(err) =>{
+          
+        }
+      })
   }
 
-  public constructor(private fileService: FileService){
+  public constructor(private fileService: FileService, private renderer: Renderer2){
 
   }
 

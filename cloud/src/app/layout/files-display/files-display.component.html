@@ -11,26 +11,30 @@
 
 </div>
 <div class="row text-left">
-    <div class="col-5 m-3">
+    <div class="col-md-3 col-12 m-3">
         <button class="certificates-button" style="width: 150px;" (click)="goBackFolder()">Go Back</button>
 
     </div> 
-    <div class="col-5 m-3">
+    <div class="col-md-3 col-12 m-3">
         <button class="certificates-button" style="width: 150px;" (click)="uploadToCurrentFolder()">Upload</button>
+
+    </div> 
+    <div class="col-md-3 col-12 m-3">
+        <input type="text" class="form-control" name="folder" id="folder" placeholder="foldername" [(ngModel)]="new_folder_name">
+        <button class="certificates-button" style="width: 150px;" (click)="createFolder()">Create Folder</button>
 
     </div> 
 </div>
 
-<div *ngIf="isLoaded===true">
-    <div class="row m-5 text-center" *ngFor="let file of currentFiles">
-        <div class="col-3 m-3" (click)="showFile(file)">
+<div *ngIf="isLoaded===true" class="row">
+    
+        <div class="col-3 m-3" (click)="showFile(file)" *ngFor="let file of currentFiles">
             <app-single-file-display [file]="file" class="hover-folder" ></app-single-file-display>
         </div>
-    </div>
-    <div class="row m-5 text-center" *ngFor="let folder of currentFolders">
-        <div class="col-3 m-3 p-2 hover-bg" (click)="redisplayItemsAndFolder(folder.toString())">
-            <app-single-folder-display [folderName]="folder.toString()" class="hover-folder"></app-single-folder-display>
+    
+        <div class="col-3 m-3 p-2 hover-bg" (click)="redisplayItemsAndFolder(folder.foldername)" *ngFor="let folder of currentFolders">
+            <app-single-folder-display [folderName]="folder.foldername" class="hover-folder"></app-single-folder-display>
         </div>
-    </div>
+    
 </div>
 
