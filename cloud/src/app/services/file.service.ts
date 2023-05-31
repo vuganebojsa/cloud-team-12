@@ -99,8 +99,11 @@ export class FileService {
     let bucket = 'bivuja-bucket'
     let filename = fileInfo.filename;
     if(fileInfo.folderName !== ''){
+      if(!fileInfo.folderName.endsWith('/')) fileInfo.folderName += '/';
       fileInfo.username = username;
       filename =  btoa(fileInfo.username + '-' + fileInfo.folderName + fileInfo.filename);
+    }else{
+      filename = btoa(filename);
     }
     return this.http.delete<any>(this.delete_s3_path + bucket + '/' + filename);
 

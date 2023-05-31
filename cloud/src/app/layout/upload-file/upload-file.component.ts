@@ -47,8 +47,8 @@ export class UploadFileComponent implements OnInit{
   }
 
   upload(){
-     if(this.uploadForm.valid){
-      alert("Successfully uploaded a file!");
+     if(!this.uploadForm.valid){
+        return;
     }
     this.fileInfo.description = this.uploadForm.value.description;
     this.fileInfo.tags = this.uploadForm.value.tags;
@@ -73,17 +73,26 @@ export class UploadFileComponent implements OnInit{
               this.fileInfo.folderName = this.folderName.slice(0, this.folderName.length - 1);
               console.log(this.fileInfo.folderName);
               this.fileInfo.filename = dynamofilename;
-              this.fileService.uploadFileToDynamoDb(this.fileInfo).subscribe((res) =>{
-                console.log(res);
+              this.fileService.uploadFileToDynamoDb(this.fileInfo).subscribe({
+                next:(res) =>{
+                  alert("Successfully uploaded a file!");
+                },
+                error:(err)=>{
+                  if(err.status===200) alert("Successfully uploaded a file!");
+                }
               })
             },
             error:(error) =>{
-              console.log(error);
               
               this.fileInfo.folderName = this.folderName.slice(0, this.folderName.length - 1);
               this.fileInfo.filename = dynamofilename;
-              this.fileService.uploadFileToDynamoDb(this.fileInfo).subscribe((res) =>{
-                console.log(res);
+              this.fileService.uploadFileToDynamoDb(this.fileInfo).subscribe({
+                next:(res) =>{
+                  alert("Successfully uploaded a file!");
+                },
+                error:(err)=>{
+                  alert("Successfully uploaded a file!");
+                }
               })
             }
           }

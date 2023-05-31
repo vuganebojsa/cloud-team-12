@@ -210,11 +210,42 @@ export class FilesDisplayComponent implements OnInit{
       alert('Please select a file first.');
       return;
     }
-    console.log(this.selectedFile);
+    let newFile = this.selectedFile;
+    this.fileService.deleteFileS3(this.selectedFile).subscribe({
+      next:(result) =>{
+        this.fileService.deleteFileDynamo(newFile).subscribe({
+          next:(res) =>{
+            alert('Successfully deleted file!');
+          },
+          error:(error) =>{
+            
+            alert('Successfully deleted file!');
+          }
+        });
+      },
+      error:(err) =>{
+        if(err.status === 200){
+          this.fileService.deleteFileDynamo(newFile).subscribe({
+            next:(res) =>{
+              alert('Successfully deleted file!');
+            },
+            error:(error) =>{
+              
+              alert('Successfully deleted file!');
+            }
+          });
+        }
+      }
+
+    });
   }
+
+
   uploadToCurrentFolder(): void{
     this.upload_pressed = !this.upload_pressed;
   }
+
+
 
   showFile(event:any, file: FileInfo):void{
     let className = 'selected_file';
