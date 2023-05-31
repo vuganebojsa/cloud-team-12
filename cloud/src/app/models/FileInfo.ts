@@ -1,5 +1,5 @@
 export interface FileInfo{
-    id?:number,
+    id?:string,
     filename: string,
     description: string,
     tags: string,

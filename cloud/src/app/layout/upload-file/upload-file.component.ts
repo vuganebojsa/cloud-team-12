@@ -34,6 +34,7 @@ export class UploadFileComponent implements OnInit{
   };
   file: string = '';
   loadedFile: any;
+  base64File: string;
   constructor(
     private fileService: FileService, private tokenDecoderService: TokenDecoderService){
 
@@ -45,65 +46,79 @@ export class UploadFileComponent implements OnInit{
   ngOnInit(): void {
   }
 
-  upload():void{
+  upload(){
      if(this.uploadForm.valid){
       alert("Successfully uploaded a file!");
     }
     this.fileInfo.description = this.uploadForm.value.description;
     this.fileInfo.tags = this.uploadForm.value.tags;
-    if(this.isFolderNameValid()){
-      this.fileInfo.folderName = this.folderName;
+    const reader = new FileReader();
 
-      let cross_index = this.fileInfo.filename.indexOf('-');
-      this.fileInfo.filename = this.fileInfo.filename.slice(cross_index + 1, this.fileInfo.filename.length);
-
-      let dynamofilename = this.fileInfo.filename;
-      this.fileService.uploadFileToFolder(this.fileInfo, this.loadedFile).subscribe(
-        {
-          next:(result) =>{
-            console.log(result);
-            this.fileInfo.folderName = this.folderName.slice(0, this.folderName.length - 1);
-            console.log(this.fileInfo.folderName);
-            this.fileInfo.filename = dynamofilename;
-            this.fileService.uploadFileToDynamoDb(this.fileInfo).subscribe((res) =>{
-              console.log(res);
-            })
-          },
-          error:(error) =>{
-            console.log(error);
-            
-            this.fileInfo.folderName = this.folderName.slice(0, this.folderName.length - 1);
-            this.fileInfo.filename = dynamofilename;
-            this.fileService.uploadFileToDynamoDb(this.fileInfo).subscribe((res) =>{
-              console.log(res);
-            })
-          }
-        }
-      );
+    reader.onload = () => {
+      const fileContent = reader.result as string;
+      this.base64File = btoa(fileContent);
 
 
-    
-    }
-    else{
-      console.log('Nevalidno');
-      this.fileService.uploadFile(this.fileInfo, this.loadedFile).subscribe(
-        {
-          next:(result) =>{
-            console.log(result);
-            this.fileService.uploadFileToDynamoDb(this.fileInfo).subscribe((result) =>{
+      if(this.isFolderNameValid()){
+        this.fileInfo.folderName = this.folderName;
+  
+        let cross_index = this.fileInfo.filename.indexOf('-');
+        this.fileInfo.filename = this.fileInfo.filename.slice(cross_index + 1, this.fileInfo.filename.length);
+  
+        let dynamofilename = this.fileInfo.filename;
+        this.fileService.uploadFileToFolder(this.fileInfo, this.base64File).subscribe(
+          {
+            next:(result) =>{
               console.log(result);
-            })
-          },
-          error:(error) =>{
-            console.log(error);
-            
-            this.fileService.uploadFileToDynamoDb(this.fileInfo).subscribe((result) =>{
-              console.log(result);
-            })
+              this.fileInfo.folderName = this.folderName.slice(0, this.folderName.length - 1);
+              console.log(this.fileInfo.folderName);
+              this.fileInfo.filename = dynamofilename;
+              this.fileService.uploadFileToDynamoDb(this.fileInfo).subscribe((res) =>{
+                console.log(res);
+              })
+            },
+            error:(error) =>{
+              console.log(error);
+              
+              this.fileInfo.folderName = this.folderName.slice(0, this.folderName.length - 1);
+              this.fileInfo.filename = dynamofilename;
+              this.fileService.uploadFileToDynamoDb(this.fileInfo).subscribe((res) =>{
+                console.log(res);
+              })
+            }
           }
-        }
-      );
-    }
+        );
+  
+  
+      
+      }
+      else{
+        this.fileService.uploadFile(this.fileInfo, this.base64File).subscribe(
+          {
+            next:(result) =>{
+              console.log(result);
+              this.fileService.uploadFileToDynamoDb(this.fileInfo).subscribe((result) =>{
+                console.log(result);
+              })
+            },
+            error:(error) =>{
+              console.log(error);
+              
+              this.fileService.uploadFileToDynamoDb(this.fileInfo).subscribe((result) =>{
+                console.log(result);
+              })
+            }
+          }
+        );
+      }
+
+
+
+    };
+
+    reader.readAsBinaryString(this.loadedFile);
+
+   
 
   }
 

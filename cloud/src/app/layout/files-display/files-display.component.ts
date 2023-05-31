@@ -20,6 +20,7 @@ export class FilesDisplayComponent implements OnInit{
   new_folder_name:string = '';
   upload_pressed = false;
   currentLevel = 0;
+  selectedFile: FileInfo = null;
   ngOnInit(): void {
 
     this.fileService.getFiles().subscribe({
@@ -175,33 +176,61 @@ export class FilesDisplayComponent implements OnInit{
     })
 
   }
+  downloadSelected():void{
+    if(this.selectedFile === null){
+      alert('Please select a file first.');
+      return;
+    }
+    this.fileService.getFile(this.selectedFile.folderName + '/' + this.selectedFile.filename).subscribe({
+      next:(res) =>{
+        const blb= new Blob([res], {type: this.selectedFile.type});
+        let f = this.selectedFile;
+        var reader = new FileReader();
+        reader.onload = function() {
+          const src = `data:${f.type};base64,${reader.result}`;
+          
+          const link = document.createElement("a");
+          link.href = src;
+          link.download = f.filename;
+          
+          link.target = f.filename;
+          link.click();
+        }
+        reader.readAsText(blb);
+         
+      },
+      error:(err) =>{
+        
+      }
+    })
+  }
+
+  deleteSelectedFile():void{
+    if(this.selectedFile === null){
+      alert('Please select a file first.');
+      return;
+    }
+    console.log(this.selectedFile);
+  }
   uploadToCurrentFolder(): void{
     this.upload_pressed = !this.upload_pressed;
   }
 
-  showFile(file: FileInfo):void{
-      this.fileService.getFile(file.folderName + '/' + file.filename).subscribe({
-        next:(res) =>{
-          const blb= new Blob([res], {type: file.type});
-
-          var reader = new FileReader();
-          reader.onload = function() {
-            const src = `data:${file.type};base64,${reader.result}`;
-            
-            const link = document.createElement("a");
-            link.href = src;
-            link.download = file.filename;
-            
-            link.target = file.filename;
-            link.click();
-          }
-          reader.readAsText(blb);
-           
-        },
-        error:(err) =>{
-          
-        }
-      })
+  showFile(event:any, file: FileInfo):void{
+    let className = 'selected_file';
+    const hasClass = event.target.classList.contains(className);
+    if(hasClass){
+      this.renderer.removeClass(event.target, className);
+    }else{
+      this.renderer.addClass(event.target, className);
+    }
+    if(file === this.selectedFile){
+      this.selectedFile = null;
+      return;
+    }
+    this.selectedFile = file;
+    
+    
   }
 
   public constructor(private fileService: FileService, private renderer: Renderer2){

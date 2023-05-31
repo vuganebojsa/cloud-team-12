@@ -1,5 +1,5 @@
 export interface FolderInfo{
-    id?:number,
+    id?:string,
     foldername:string,
     username?:string,
     path:string
