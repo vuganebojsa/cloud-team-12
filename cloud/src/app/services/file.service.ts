@@ -11,18 +11,18 @@ import { Folder } from 'aws-sdk/clients/storagegateway';
 })
 export class FileService {
 
-  s3_bucket_path: string = ' https://0poeduyada.execute-api.eu-central-1.amazonaws.com/dev/post-file/';
+  s3_bucket_path: string = ' https://zsgxz7y3p6.execute-api.eu-central-1.amazonaws.com/dev/post-file/';
 
-  post_folder_path: string = 'https://0poeduyada.execute-api.eu-central-1.amazonaws.com/dev/post-folder-lambda';
-  get_folders_path: string = 'https://0poeduyada.execute-api.eu-central-1.amazonaws.com/dev/get-folders/';
-  post_folder_path_s3: string = 'https://0poeduyada.execute-api.eu-central-1.amazonaws.com/dev/post-folder-s3';
-  post_file_to_folder_path: string = ' https://0poeduyada.execute-api.eu-central-1.amazonaws.com/dev/post-file-to-folder/';
-  dynamoPath: string = 'https://0poeduyada.execute-api.eu-central-1.amazonaws.com/dev/post-file-lambda';
+  post_folder_path: string = 'https://zsgxz7y3p6.execute-api.eu-central-1.amazonaws.com/dev/post-folder-lambda';
+  get_folders_path: string = 'https://zsgxz7y3p6.execute-api.eu-central-1.amazonaws.com/dev/get-folders/';
+  post_folder_path_s3: string = 'https://zsgxz7y3p6.execute-api.eu-central-1.amazonaws.com/dev/post-folder-s3';
+  post_file_to_folder_path: string = ' https://zsgxz7y3p6.execute-api.eu-central-1.amazonaws.com/dev/post-file-to-folder/';
+  dynamoPath: string = 'https://zsgxz7y3p6.execute-api.eu-central-1.amazonaws.com/dev/post-file-lambda';
 
-  get_all_files_path: string = 'https://0poeduyada.execute-api.eu-central-1.amazonaws.com/dev/get-files/';
-  get_file: string = 'https://0poeduyada.execute-api.eu-central-1.amazonaws.com/dev/get-file/';
-  delete_dynamo_path:string = 'https://0poeduyada.execute-api.eu-central-1.amazonaws.com/dev/delete-file-from-dynamo/';
-  delete_s3_path:string = 'https://0poeduyada.execute-api.eu-central-1.amazonaws.com/dev/delete-file-from-bucket/';
+  get_all_files_path: string = 'https://zsgxz7y3p6.execute-api.eu-central-1.amazonaws.com/dev/get-files/';
+  get_file: string = 'https://zsgxz7y3p6.execute-api.eu-central-1.amazonaws.com/dev/get-file/';
+  delete_dynamo_path:string = 'https://zsgxz7y3p6.execute-api.eu-central-1.amazonaws.com/dev/delete-file-from-dynamo/';
+  delete_s3_path:string = 'https://zsgxz7y3p6.execute-api.eu-central-1.amazonaws.com/dev/delete-file-from-bucket/';
   constructor(private http: HttpClient, private tokenDecoderService: TokenDecoderService) { 
 
   }
