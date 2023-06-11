@@ -211,33 +211,36 @@ export class FilesDisplayComponent implements OnInit{
       return;
     }
     let newFile = this.selectedFile;
-    this.fileService.deleteFileS3(this.selectedFile).subscribe({
-      next:(result) =>{
-        this.fileService.deleteFileDynamo(newFile).subscribe({
-          next:(res) =>{
-            alert('Successfully deleted file!');
-          },
-          error:(error) =>{
-            
-            alert('Successfully deleted file!');
-          }
-        });
-      },
-      error:(err) =>{
-        if(err.status === 200){
-          this.fileService.deleteFileDynamo(newFile).subscribe({
-            next:(res) =>{
-              alert('Successfully deleted file!');
-            },
-            error:(error) =>{
-              
-              alert('Successfully deleted file!');
-            }
-          });
-        }
-      }
 
+
+    this.fileService.deleteFileDynamo(newFile).subscribe({
+      next:(res) =>{
+        this.fileService.deleteFileS3(this.selectedFile).subscribe({
+          next:(result) =>{
+
+          },
+          error:(err) =>{
+
+          }
+      })
+      },
+      error:(error) =>{
+        if(error.status === 200){
+          this.fileService.deleteFileS3(this.selectedFile).subscribe({
+            next:(result) =>{
+              alert('Successfully deleted file!');
+
+            },
+            error:(err) =>{
+  
+            }
+        })
+        
+      }
+    }
     });
+
+
   }
 
 
