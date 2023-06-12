@@ -62,7 +62,7 @@ export class SharedFilesComponent implements OnInit{
         });
       
     }else{
-      path = username + '-' + file.folderName + '/' + file.filename;
+      path = file.username + '-' + file.folderName + '/' + file.filename;
       console.log(path);
       path = btoa(path);
       console.log(path);
