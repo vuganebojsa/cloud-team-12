@@ -22,6 +22,7 @@ export class ShareFileToOtherComponent {
   isLoaded = false;
   isLoadedFolder = false;
 
+
   constructor(
     private fileService: FileService){
 
@@ -55,10 +56,15 @@ export class ShareFileToOtherComponent {
     })
   }
   shareFile(file: FileInfo):void{
-    this.uploadForm.get('path').setValue(file.filename);
+    let new_foldername = ''
+    if(file.folderName !== ''){
+      new_foldername = file.folderName + '/' + file.filename;
+    }
+    this.uploadForm.get('path').setValue(new_foldername);
 
   }
   shareFolder(folder:FolderInfo):void{
+
     this.uploadForm.get('path').setValue(folder.foldername);
 
   }

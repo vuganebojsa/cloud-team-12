@@ -151,10 +151,12 @@ export class FilesDisplayComponent implements OnInit{
           
         this.fileService.postFolderS3(this.currentFolder + this.new_folder_name + '/').subscribe({
           next:(res) =>{
+            alert('Successfully created folder: ' + this.new_folder_name);
 
           },
           error:(error) =>{
-
+            if(error.status === 200) 
+            alert('Successfully created folder: ' + this.new_folder_name);
           }
         })
         this.currentFolders.push(folderInfo);
@@ -163,9 +165,12 @@ export class FilesDisplayComponent implements OnInit{
       error:(err) =>{
         this.fileService.postFolderS3(this.currentFolder + this.new_folder_name + '/').subscribe({
           next:(res) =>{
-              
+            alert('Successfully created folder: ' + this.new_folder_name);
+
           },
           error:(error) =>{
+          if(error.status === 200)              
+            alert('Successfully created folder: ' + this.new_folder_name);
 
           }
         })
@@ -217,22 +222,28 @@ export class FilesDisplayComponent implements OnInit{
       next:(res) =>{
         this.fileService.deleteFileS3(this.selectedFile).subscribe({
           next:(result) =>{
+            alert('Successfully deleted file!');
 
           },
           error:(err) =>{
-
+            if(err.status === 204){
+              alert('Successfully deleted file!');
+            }
           }
       })
       },
       error:(error) =>{
-        if(error.status === 200){
+        if(error.status === 204){
           this.fileService.deleteFileS3(this.selectedFile).subscribe({
             next:(result) =>{
               alert('Successfully deleted file!');
 
             },
             error:(err) =>{
-  
+              if(err.status === 204){
+                alert('Successfully deleted file!');
+
+              }
             }
         })
         

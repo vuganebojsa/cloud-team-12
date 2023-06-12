@@ -78,7 +78,7 @@ export class UploadFileComponent implements OnInit{
                   alert("Successfully uploaded a file!");
                 },
                 error:(err)=>{
-                  if(err.status===200) alert("Successfully uploaded a file!");
+                  if(err.status===0 || err.status === 200) alert("Successfully uploaded a file!");
                 }
               })
             },
@@ -91,7 +91,8 @@ export class UploadFileComponent implements OnInit{
                   alert("Successfully uploaded a file!");
                 },
                 error:(err)=>{
-                  alert("Successfully uploaded a file!");
+                  if(err.status === 0 || err.status === 200)
+                    alert("Successfully uploaded a file!");
                 }
               })
             }
