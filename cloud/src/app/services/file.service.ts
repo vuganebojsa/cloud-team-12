@@ -105,7 +105,7 @@ export class FileService {
     }else{
       filename = btoa(filename);
     }
-    return this.http.delete<any>(this.delete_s3_path + bucket + '/' + filename);
+    return this.http.delete<any>(this.delete_s3_path + bucket + '/' + filename + '/' + fileInfo.id);
 
   }
   deleteFileDynamo(file:FileInfo): Observable<any>{
