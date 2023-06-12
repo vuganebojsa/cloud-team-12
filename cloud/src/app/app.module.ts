@@ -20,6 +20,7 @@ import { SingleFileDisplayComponent } from './layout/single-file-display/single-
 import { SingleFolderDisplayComponent } from './layout/single-folder-display/single-folder-display.component';
 import { ShareFileToOtherComponent } from './layout/share/share-file-to-other/share-file-to-other.component';
 import { SharedFilesComponent } from './layout/share/shared-files/shared-files.component';
+import { StopShareFileComponent } from './layout/share/stop-share-file/stop-share-file.component';
 
 
 @NgModule({
@@ -37,7 +38,8 @@ import { SharedFilesComponent } from './layout/share/shared-files/shared-files.c
     SingleFileDisplayComponent,
     SingleFolderDisplayComponent,
     ShareFileToOtherComponent,
-    SharedFilesComponent
+    SharedFilesComponent,
+    StopShareFileComponent
   ],
 
   imports: [

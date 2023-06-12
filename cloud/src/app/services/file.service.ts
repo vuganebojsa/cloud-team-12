@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { TokenDecoderService } from './token-decoder.service';
 import { FolderInfo } from '../models/Folder';
 import { Folder } from 'aws-sdk/clients/storagegateway';
+import { SharedFile } from '../models/SharedFile';
 @Injectable({
   providedIn: 'root'
 })
@@ -23,6 +24,8 @@ export class FileService {
   get_file: string = 'https://zsgxz7y3p6.execute-api.eu-central-1.amazonaws.com/dev/get-file/';
   delete_dynamo_path:string = 'https://zsgxz7y3p6.execute-api.eu-central-1.amazonaws.com/dev/delete-file-from-dynamo/';
   delete_s3_path:string = 'https://zsgxz7y3p6.execute-api.eu-central-1.amazonaws.com/dev/delete-file-from-bucket/';
+  get_shared_files:string = 'https://zsgxz7y3p6.execute-api.eu-central-1.amazonaws.com/dev/get-shared-files/';
+  share_file:string = 'https://zsgxz7y3p6.execute-api.eu-central-1.amazonaws.com/dev/share-file';
   constructor(private http: HttpClient, private tokenDecoderService: TokenDecoderService) { 
 
   }
@@ -61,7 +64,18 @@ export class FileService {
 
 
   }
+  getSharedFiles(): Observable<SharedFile[]>{
+    let username = this.tokenDecoderService.getDecodedAccesToken()["username"];
+    return this.http.get<SharedFile[]>(this.get_shared_files + username);
 
+
+  }
+  shareFile(sharedFile: SharedFile): Observable<any>{
+    
+    sharedFile.giver = this.tokenDecoderService.getDecodedAccesToken()["username"];
+    
+    return this.http.post<any>(this.share_file, sharedFile);
+  }
 
   uploadFileToDynamoDb(fileInfo: FileInfo): Observable<FileInfo>{
     
