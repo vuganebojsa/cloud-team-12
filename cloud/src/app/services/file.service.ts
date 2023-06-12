@@ -64,9 +64,9 @@ export class FileService {
 
 
   }
-  getSharedFiles(): Observable<SharedFile[]>{
+  getSharedFiles(): Observable<FileInfo[]>{
     let username = this.tokenDecoderService.getDecodedAccesToken()["username"];
-    return this.http.get<SharedFile[]>(this.get_shared_files + username);
+    return this.http.get<FileInfo[]>(this.get_shared_files + username);
 
 
   }
@@ -104,6 +104,11 @@ export class FileService {
 
       path =  btoa( username + '-' + path);
     }
+    return this.http.get(this.get_file + 'bivuja-bucket/' + path, {responseType: 'blob'});
+
+  }
+
+  downloadSharedFile(path:string){
     return this.http.get(this.get_file + 'bivuja-bucket/' + path, {responseType: 'blob'});
 
   }
