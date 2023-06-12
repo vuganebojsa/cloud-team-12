@@ -26,6 +26,8 @@ export class FileService {
   delete_s3_path:string = 'https://zsgxz7y3p6.execute-api.eu-central-1.amazonaws.com/dev/delete-file-from-bucket/';
   get_shared_files:string = 'https://zsgxz7y3p6.execute-api.eu-central-1.amazonaws.com/dev/get-shared-files/';
   share_file:string = 'https://zsgxz7y3p6.execute-api.eu-central-1.amazonaws.com/dev/share-file';
+  stop_share_file:string = 'https://zsgxz7y3p6.execute-api.eu-central-1.amazonaws.com/dev/stop-share-file/';
+  get_my_shared_files_info:string = 'https://zsgxz7y3p6.execute-api.eu-central-1.amazonaws.com/dev/get-my-shared-files-info/';
   constructor(private http: HttpClient, private tokenDecoderService: TokenDecoderService) { 
 
   }
@@ -70,13 +72,22 @@ export class FileService {
 
 
   }
+  getMySharedFilesInfo(): Observable<SharedFile[]>{
+    let username = this.tokenDecoderService.getDecodedAccesToken()["username"];
+    return this.http.get<SharedFile[]>(this.get_my_shared_files_info + username);
+
+
+  }
   shareFile(sharedFile: SharedFile): Observable<any>{
     
     sharedFile.giver = this.tokenDecoderService.getDecodedAccesToken()["username"];
     
     return this.http.post<any>(this.share_file, sharedFile);
   }
-
+  stopShareFile(file_id:string): Observable<any>{
+      
+    return this.http.delete<any>(this.stop_share_file + file_id);
+  }
   uploadFileToDynamoDb(fileInfo: FileInfo): Observable<FileInfo>{
     
     fileInfo.bucketName = 'bivuja-bucket';
