@@ -7,13 +7,16 @@
     </div>
     <div class="row text-center">
         <div class="col-md-8 col-12 text-center my-5" *ngIf="isLoaded && isLoadedFolder">
-            <div class="col-lg-3 col-md-5 col-12 m-1" *ngFor="let file of files">
-                <app-single-file-display [file]="file" class="hover-folder" (click)="shareFile(file)"></app-single-file-display>
+            <div class="row">
+                <div class="col-lg-3 col-md-5 col-12 m-1" *ngFor="let file of files">
+                    <app-single-file-display [file]="file" class="hover-folder" (click)="shareFile(file)"></app-single-file-display>
+                </div>
+            
+                <div class="col-lg-4 col-md-4 col-12 m-1 p-2 hover-bg" *ngFor="let folder of folders">
+                    <app-single-folder-display [folderName]="folder.foldername" class="hover-folder" (click)="shareFolder(folder)"></app-single-folder-display>
+                </div>
             </div>
-        
-            <div class="col-lg-4 col-md-4 col-12 m-1 p-2 hover-bg" *ngFor="let folder of folders">
-                <app-single-folder-display [folderName]="folder.foldername" class="hover-folder" (click)="shareFolder(folder)"></app-single-folder-display>
-            </div>
+            
         </div>
         <div class="col-md-4 col-12 text-center my-5">
             <form upload

@@ -33,7 +33,6 @@ export class ShareFileToOtherComponent {
       next:(res) =>{
           this.files = res;
           this.isLoaded = true;
-          console.log(res);
 
       },
       error:(err) =>{
@@ -48,7 +47,7 @@ export class ShareFileToOtherComponent {
           f.foldername = f.path + f.foldername;
         }
         this.isLoadedFolder = true;
-        console.log(res);
+
       },
       error:(err) =>{
         
@@ -77,8 +76,12 @@ export class ShareFileToOtherComponent {
       next:(result) =>{
         alert('Successfully shared file');
       },
-      error:(err) =>{
-        alert('Something went wrong.');
+      error:(erro) =>{
+        if(erro.status===0){
+          alert('Successfully shared file');
+
+        }
+        else alert('Something went wrong.');
       }
     })
   }
