@@ -8,6 +8,7 @@ import { HomeComponent } from './layout/home/home.component';
 import { ShareFileToOtherComponent } from './layout/share/share-file-to-other/share-file-to-other.component';
 import { SharedFilesComponent } from './layout/share/shared-files/shared-files.component';
 import { StopShareFileComponent } from './layout/share/stop-share-file/stop-share-file.component';
+import { MoveContentComponent } from './layout/move-content/move-content.component';
 
 const routes: Routes = [
   {path:'register', component:RegisterComponent},
@@ -17,6 +18,7 @@ const routes: Routes = [
   {path:'share-file', component:ShareFileToOtherComponent},
   {path:'shared-files', component:SharedFilesComponent},
   {path:'stop-share', component:StopShareFileComponent},
+  {path:'move-files', component:MoveContentComponent},
   {path:'**', component:HomeComponent},
   {path:'', component:HomeComponent},
   {path:'', component:HomeComponent},
