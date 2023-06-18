@@ -21,6 +21,8 @@ export class MoveContentComponent {
 
   folders: FolderInfo[];
   files: FileInfo[];
+  selectedFile: FileInfo;
+  selectedFolder: FolderInfo;
   isLoaded = false;
   isLoadedFolder = false;
 
@@ -58,15 +60,20 @@ export class MoveContentComponent {
     })
   }
   shareFile(file: FileInfo):void{
+    console.log(file)
+    this.selectedFile = file;
     let new_foldername = ''
     if(file.folderName !== ''){
       new_foldername = file.folderName + '/' + file.filename;
+    }else{
+      new_foldername = file.filename.split('-')[1];
+
     }
     this.uploadForm.get('path').setValue(new_foldername);
 
   }
   shareFolder(folder:FolderInfo):void{
-
+    this.selectedFolder = folder;
     this.uploadForm.get('receiver').setValue(folder.foldername);
 
   }
@@ -75,18 +82,15 @@ export class MoveContentComponent {
       alert('Please fullfill both fields.')
       return;
     }
-    let sharedFile: SharedFile = {
-      giver:'',
-      receiver: this.uploadForm.value.receiver,
-      path:this.uploadForm.value.path
-    }
-    this.fileService.shareFile(sharedFile).subscribe({
+
+    this.selectedFile.newPathName = this.selectedFolder.path + this.selectedFolder.foldername;
+    this.fileService.moveFile(this.selectedFile).subscribe({
       next:(result) =>{
-        alert('Successfully shared file');
+        alert('Successfully moved file');
       },
       error:(erro) =>{
-        if(erro.status===0){
-          alert('Successfully shared file');
+        if(erro.status===200){
+          alert('Successfully moved file');
 
         }
         else alert('Something went wrong.');
