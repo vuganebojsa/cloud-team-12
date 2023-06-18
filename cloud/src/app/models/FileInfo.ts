@@ -9,5 +9,6 @@ export interface FileInfo{
     lastModifiedAt: string,
     username?:string,
     bucketName?:string,
-    folderName?:string
+    folderName?:string,
+    newPathName?:string
 }
