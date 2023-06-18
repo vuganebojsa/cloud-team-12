@@ -21,6 +21,7 @@ import { SingleFolderDisplayComponent } from './layout/single-folder-display/sin
 import { ShareFileToOtherComponent } from './layout/share/share-file-to-other/share-file-to-other.component';
 import { SharedFilesComponent } from './layout/share/shared-files/shared-files.component';
 import { StopShareFileComponent } from './layout/share/stop-share-file/stop-share-file.component';
+import { MoveContentComponent } from './layout/move-content/move-content.component';
 
 
 @NgModule({
@@ -39,7 +40,8 @@ import { StopShareFileComponent } from './layout/share/stop-share-file/stop-shar
     SingleFolderDisplayComponent,
     ShareFileToOtherComponent,
     SharedFilesComponent,
-    StopShareFileComponent
+    StopShareFileComponent,
+    MoveContentComponent
   ],
 
   imports: [
