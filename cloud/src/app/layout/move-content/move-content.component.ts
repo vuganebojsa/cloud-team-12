@@ -89,7 +89,8 @@ export class MoveContentComponent {
         alert('Successfully moved file');
       },
       error:(erro) =>{
-        if(erro.status===200){
+        console.log(erro);
+        if(erro.status===200 || erro.status === 0){
           alert('Successfully moved file');
 
         }
