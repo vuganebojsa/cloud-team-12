@@ -33,7 +33,7 @@ export class SharedFilesComponent implements OnInit{
   }
 
   downloadFile(file: FileInfo): void{
-    let username = this.tokenDecoderService.getDecodedAccesToken()["username"];
+    let username = this.tokenDecoderService.getDecodedAccesToken()["cognito:username"];
     let path = file.folderName;
 
     if(path.trim() === ''){
