@@ -154,7 +154,7 @@ export class UploadFileComponent implements OnInit{
 
   handleUpload(event):void{
     this.loadedFile = event.target.files[0];
-    const newFilename = this.tokenDecoderService.getDecodedAccesToken()['username'] + '-'+this.loadedFile.name; // Specify the new filename
+    const newFilename = this.tokenDecoderService.getDecodedAccesToken()['cognito:username'] + '-'+this.loadedFile.name; // Specify the new filename
   
     // Create a new File object with the updated filename
     const modifiedFile = new File([this.loadedFile], newFilename, { type: this.loadedFile.type });
