@@ -116,7 +116,7 @@ export class UploadFileComponent implements OnInit{
                   
                 },
                 error:(err) =>{
-                  if(err.status == 200){
+                  if(err.status == 200 || err.status === 0){
                     this.fileService.uploadFileToDynamoDb(this.fileInfo).subscribe((res) =>{
                       alert("Successfully uploaded a file!");
       
@@ -129,7 +129,7 @@ export class UploadFileComponent implements OnInit{
             },
             error:(error) =>{
               console.log(error);
-              if(error.status==200){
+              if(error.status==200 || error.status === 0){
                 this.fileService.uploadFileToDynamoDb(this.fileInfo).subscribe((res) =>{
                   alert("Successfully uploaded a file!");
   

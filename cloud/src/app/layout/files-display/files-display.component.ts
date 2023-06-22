@@ -233,7 +233,7 @@ export class FilesDisplayComponent implements OnInit{
       })
       },
       error:(error) =>{
-        if(error.status === 204){
+        if(error.status === 204 || error.status === 0 || error.status === 200){
           this.fileService.deleteFileS3(this.selectedFile).subscribe({
             next:(result) =>{
               alert('Successfully deleted file!');
