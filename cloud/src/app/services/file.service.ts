@@ -55,10 +55,10 @@ export class FileService {
     return this.http.post<any>(this.move_file_path, fileInfo);
   }
   sendInvitationToFamilyMember(email:string): Observable<any>{
-    let username = this.tokenDecoderService.getDecodedAccesToken()["cognito:username"];
+    let inviterEmail = this.tokenDecoderService.getDecodedAccesToken()["email"];
 
     return this.http.post<any>(this.family_registration_invite_path, {
-      'inviter':username,
+      'inviter':inviterEmail,
       'familyMember':email
     });
   }
