@@ -83,7 +83,7 @@ export class ShareFileToOtherComponent {
         alert('Successfully shared file');
       },
       error:(erro) =>{
-        if(erro.status===0){
+        if(erro.status===0 || erro.status === 200){
           alert('Successfully shared file');
 
         }

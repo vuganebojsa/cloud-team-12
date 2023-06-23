@@ -22,6 +22,7 @@ import { ShareFileToOtherComponent } from './layout/share/share-file-to-other/sh
 import { SharedFilesComponent } from './layout/share/shared-files/shared-files.component';
 import { StopShareFileComponent } from './layout/share/stop-share-file/stop-share-file.component';
 import { MoveContentComponent } from './layout/move-content/move-content.component';
+import { RegisterFamilyMemberComponent } from './layout/register-family-member/register-family-member.component';
 
 
 @NgModule({
@@ -41,7 +42,8 @@ import { MoveContentComponent } from './layout/move-content/move-content.compone
     ShareFileToOtherComponent,
     SharedFilesComponent,
     StopShareFileComponent,
-    MoveContentComponent
+    MoveContentComponent,
+    RegisterFamilyMemberComponent
   ],
 
   imports: [
