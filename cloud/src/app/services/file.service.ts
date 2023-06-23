@@ -29,6 +29,7 @@ export class FileService {
   stop_share_file:string = 'https://zsgxz7y3p6.execute-api.eu-central-1.amazonaws.com/dev/stop-share-file/';
   get_my_shared_files_info:string = 'https://zsgxz7y3p6.execute-api.eu-central-1.amazonaws.com/dev/get-my-shared-files-info/';
   move_file_path:string = ' https://zsgxz7y3p6.execute-api.eu-central-1.amazonaws.com/dev/move-file';
+  family_registration_invite_path:string = '';
   constructor(private http: HttpClient, private tokenDecoderService: TokenDecoderService) { 
 
   }
@@ -52,6 +53,14 @@ export class FileService {
 
   moveFile(fileInfo: FileInfo): Observable<any>{
     return this.http.post<any>(this.move_file_path, fileInfo);
+  }
+  sendInvitationToFamilyMember(email:string): Observable<any>{
+    let username = this.tokenDecoderService.getDecodedAccesToken()["cognito:username"];
+
+    return this.http.post<any>(this.family_registration_invite_path, {
+      'inviter':username,
+      'familyMember':email
+    });
   }
   postFolder(folder: FolderInfo): Observable<any>{
     let username = this.tokenDecoderService.getDecodedAccesToken()["cognito:username"];
