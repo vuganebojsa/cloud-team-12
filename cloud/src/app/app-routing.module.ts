@@ -10,9 +10,11 @@ import { SharedFilesComponent } from './layout/share/shared-files/shared-files.c
 import { StopShareFileComponent } from './layout/share/stop-share-file/stop-share-file.component';
 import { MoveContentComponent } from './layout/move-content/move-content.component';
 import { RegisterFamilyMemberComponent } from './layout/register-family-member/register-family-member.component';
+import { RegisterFromInviteComponent } from './layout/register-from-invite/register-from-invite.component';
 
 const routes: Routes = [
   {path:'register', component:RegisterComponent},
+  {path:'register-from-invite', component:RegisterFromInviteComponent},
   {path:'login', component:LoginComponent},
   {path:'upload-file', component:UploadFileComponent},
   {path:'verify', component:EnterCodeComponent},

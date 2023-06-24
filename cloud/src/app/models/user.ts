@@ -7,3 +7,13 @@ export interface User{
     birthDate:string,
     code:string
 }
+
+export interface InviteUser{
+    email:string,
+    name:string,
+    surname:string,
+    username:string,
+    password:string,
+    birthDate:string,
+    inviterUsername:string
+}
