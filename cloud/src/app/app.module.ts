@@ -23,6 +23,7 @@ import { SharedFilesComponent } from './layout/share/shared-files/shared-files.c
 import { StopShareFileComponent } from './layout/share/stop-share-file/stop-share-file.component';
 import { MoveContentComponent } from './layout/move-content/move-content.component';
 import { RegisterFamilyMemberComponent } from './layout/register-family-member/register-family-member.component';
+import { RegisterFromInviteComponent } from './layout/register-from-invite/register-from-invite.component';
 
 
 @NgModule({
@@ -43,7 +44,8 @@ import { RegisterFamilyMemberComponent } from './layout/register-family-member/r
     SharedFilesComponent,
     StopShareFileComponent,
     MoveContentComponent,
-    RegisterFamilyMemberComponent
+    RegisterFamilyMemberComponent,
+    RegisterFromInviteComponent
   ],
 
   imports: [
