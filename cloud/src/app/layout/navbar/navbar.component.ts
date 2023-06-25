@@ -24,7 +24,7 @@ export class NavbarComponent implements OnInit{
       if(state === null || state === undefined)
         this.loggedIn = false;
       else
-        this.loggedIn = false;
+        this.loggedIn = true;
     })
   }
 
