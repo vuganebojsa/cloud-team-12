@@ -40,7 +40,7 @@ export class LoginComponent {
       localStorage.setItem('userUsername', JSON.stringify(result["storage"][keyPrefix + "." +username+".accessToken"]));
       localStorage.setItem('user', JSON.stringify(result['signInUserSession']['idToken']['jwtToken']));
       this.authenticationService.setUser(result);
-      this.router.navigate(['upload-file']);
+      this.router.navigate(['']);
     }).catch((error) =>{
         alert(error.message);
 

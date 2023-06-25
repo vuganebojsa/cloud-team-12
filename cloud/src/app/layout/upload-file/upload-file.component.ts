@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
@@ -11,7 +11,7 @@ import { TokenDecoderService } from 'src/app/services/token-decoder.service';
   templateUrl: './upload-file.component.html',
   styleUrls: ['./upload-file.component.css']
 })
-export class UploadFileComponent implements OnInit{
+export class UploadFileComponent {
   uploadForm = new FormGroup({
     filename: new FormControl('', [Validators.required, Validators.minLength(3)]),
     description: new FormControl('', [Validators.required, Validators.minLength(3)]),
@@ -43,106 +43,32 @@ export class UploadFileComponent implements OnInit{
     return this.folderName !== '' && this.folderName !== null && this.folderName !== undefined;
   }
 
-  ngOnInit(): void {
-  }
-
   upload(){
      if(!this.uploadForm.valid){
         return;
     }
     this.fileInfo.description = this.uploadForm.value.description;
     this.fileInfo.tags = this.uploadForm.value.tags;
+    this.fileInfo.folderName = this.folderName;
     const reader = new FileReader();
 
     reader.onload = () => {
       const fileContent = reader.result as string;
       this.base64File = btoa(fileContent);
-
-
-      if(this.isFolderNameValid()){
-        this.fileInfo.folderName = this.folderName;
-  
-        let cross_index = this.fileInfo.filename.indexOf('-');
-        this.fileInfo.filename = this.fileInfo.filename.slice(cross_index + 1, this.fileInfo.filename.length);
-  
-        let dynamofilename = this.fileInfo.filename;
-        this.fileService.uploadFileToFolder(this.fileInfo, this.base64File).subscribe(
-          {
-            next:(result) =>{
-              console.log(result);
-              this.fileInfo.folderName = this.folderName.slice(0, this.folderName.length - 1);
-              console.log(this.fileInfo.folderName);
-              this.fileInfo.filename = dynamofilename;
-              this.fileService.uploadFileToDynamoDb(this.fileInfo).subscribe({
-                next:(res) =>{
-                  alert("Successfully uploaded a file!");
-                },
-                error:(err)=>{
-                  if(err.status===0 || err.status === 200) alert("Successfully uploaded a file!");
-                }
-              })
-            },
-            error:(error) =>{
-              
-              this.fileInfo.folderName = this.folderName.slice(0, this.folderName.length - 1);
-              this.fileInfo.filename = dynamofilename;
-              this.fileService.uploadFileToDynamoDb(this.fileInfo).subscribe({
-                next:(res) =>{
-                  alert("Successfully uploaded a file!");
-                },
-                error:(err)=>{
-                  if(err.status === 0 || err.status === 200)
-                    alert("Successfully uploaded a file!");
-                }
-              })
-            }
+      this.fileInfo.fileContent = this.base64File;
+      if(this.fileInfo.folderName.endsWith('/')) this.fileInfo.folderName = this.fileInfo.folderName.slice(0, this.fileInfo.folderName.length - 1);
+      console.log(this.fileInfo);
+      this.fileService.addFileOverall(this.fileInfo).subscribe({
+        next:(result) =>{
+          
+          alert('Successfully uploaded file with name: ' + this.fileInfo.filename);
+        },
+        error:(err) =>{
+          if(err.status === 200){
+            alert('Successfully uploaded file with name: ' + this.fileInfo.filename);
           }
-        );
-  
-  
-      
-      }
-      else{
-        this.fileService.uploadFile(this.fileInfo, this.base64File).subscribe(
-          {
-            next:(result) =>{
-              console.log(result);
-              this.fileService.uploadFileToDynamoDb(this.fileInfo).subscribe({
-
-                next:(res) =>{
-                  
-                    alert("Successfully uploaded a file!");
-
-                  
-                },
-                error:(err) =>{
-                  if(err.status == 200 || err.status === 0){
-                    this.fileService.uploadFileToDynamoDb(this.fileInfo).subscribe((res) =>{
-                      alert("Successfully uploaded a file!");
-      
-                      console.log(res);
-                    })
-                  }
-                }
-              }
-            )
-            },
-            error:(error) =>{
-              console.log(error);
-              if(error.status==200 || error.status === 0){
-                this.fileService.uploadFileToDynamoDb(this.fileInfo).subscribe((res) =>{
-                  alert("Successfully uploaded a file!");
-  
-                  console.log(res);
-                })
-              }
-              
-            }
-          }
-        );
-      }
-
-
+        }
+      })
 
     };
 
@@ -154,10 +80,10 @@ export class UploadFileComponent implements OnInit{
 
   handleUpload(event):void{
     this.loadedFile = event.target.files[0];
-    const newFilename = this.tokenDecoderService.getDecodedAccesToken()['cognito:username'] + '-'+this.loadedFile.name; // Specify the new filename
+    //const newFilename = this.tokenDecoderService.getDecodedAccesToken()['cognito:username'] + '-'+this.loadedFile.name; // Specify the new filename
   
     // Create a new File object with the updated filename
-    const modifiedFile = new File([this.loadedFile], newFilename, { type: this.loadedFile.type });
+    const modifiedFile = new File([this.loadedFile], this.loadedFile.name, { type: this.loadedFile.type });
     this.loadedFile = modifiedFile;
     const reader = new FileReader();
     reader.readAsDataURL( this.loadedFile);

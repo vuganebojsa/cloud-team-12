@@ -31,11 +31,54 @@ export class FileService {
   move_file_path:string = ' https://zsgxz7y3p6.execute-api.eu-central-1.amazonaws.com/dev/move-file';
   family_registration_invite_path:string = '';
   confirm_decline_invite_path:string = '';
+
+
+  delete_file_overall_path:string = 'https://zsgxz7y3p6.execute-api.eu-central-1.amazonaws.com/dev/delete-file-overall/';
+  post_file_overall_path:string = 'https://zsgxz7y3p6.execute-api.eu-central-1.amazonaws.com/dev/add-file-overall/';
+  post_folder_overal_path:string = 'https://zsgxz7y3p6.execute-api.eu-central-1.amazonaws.com/dev/post-folder-overall';
+  /*
+  DELETE - https://zsgxz7y3p6.execute-api.eu-central-1.amazonaws.com/dev/delete-file-from-dynamo/{bucket}/{username}/{filename}/{id}
+  POST - https://zsgxz7y3p6.execute-api.eu-central-1.amazonaws.com/dev/add-file-overall/{bucket}/{filename}
+  POST - https://zsgxz7y3p6.execute-api.eu-central-1.amazonaws.com/dev/post-folder-overall */
   constructor(private http: HttpClient, private tokenDecoderService: TokenDecoderService) { 
 
   }
   private base64File: string;
 
+  addFileOverall(fileInfo: FileInfo):Observable<any>{
+    let bucket_name:string = 'bivuja-bucket';
+    let username = this.tokenDecoderService.getDecodedAccesToken()["cognito:username"];
+    let filename = fileInfo.filename;
+   
+    fileInfo.bucketName = bucket_name;
+    if(fileInfo.folderName !== ''){
+      filename =  btoa(username + '-' + fileInfo.folderName + '/' + fileInfo.filename);
+    }else{
+      filename = btoa(username + '-' + filename);
+    }
+    fileInfo.username = username;
+
+    return this.http.post<any>(this.post_file_overall_path + bucket_name + '/' + filename, fileInfo);
+  }
+
+  addFolderOverall(folderInfo: FolderInfo):Observable<any>{
+    let username = this.tokenDecoderService.getDecodedAccesToken()["cognito:username"];
+    folderInfo.username = username;
+    return this.http.post<any>(this.post_folder_overal_path, folderInfo);
+  }
+  deleteFileOverall(fileInfo: FileInfo):Observable<any>{
+    let username = this.tokenDecoderService.getDecodedAccesToken()["cognito:username"];
+    let filename = fileInfo.filename;
+    if(fileInfo.folderName !== ''){
+      if(!fileInfo.folderName.endsWith('/')) fileInfo.folderName += '/';
+      fileInfo.username = username;
+      filename =  btoa(fileInfo.username + '-' + fileInfo.folderName + fileInfo.filename);
+    }else{
+      filename = btoa(filename);
+    }
+    let bucket_name:string = 'bivuja-bucket'
+    return this.http.delete<any>(this.delete_file_overall_path + bucket_name + '/' + username + '/' + filename + '/' + fileInfo.id);
+  }
 
   getFolderName(type:string): string{
     let folder: string = '';
@@ -148,8 +191,8 @@ export class FileService {
   }
 
   deleteFileS3(fileInfo:FileInfo): Observable<any>{
-    let username = this.tokenDecoderService.getDecodedAccesToken()["cognito:username"];
     let bucket = 'bivuja-bucket'
+    let username = this.tokenDecoderService.getDecodedAccesToken()["cognito:username"];
     let filename = fileInfo.filename;
     if(fileInfo.folderName !== ''){
       if(!fileInfo.folderName.endsWith('/')) fileInfo.folderName += '/';

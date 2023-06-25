@@ -146,39 +146,21 @@ export class FilesDisplayComponent implements OnInit{
       path:this.currentFolder
 
     } 
-    this.fileService.postFolder(folderInfo).subscribe({
+    this.fileService.addFolderOverall(folderInfo).subscribe({
       next:(result) =>{
-          
-        this.fileService.postFolderS3(this.currentFolder + this.new_folder_name + '/').subscribe({
-          next:(res) =>{
-            alert('Successfully created folder: ' + this.new_folder_name);
-
-          },
-          error:(error) =>{
-            if(error.status === 200) 
-            alert('Successfully created folder: ' + this.new_folder_name);
-          }
-        })
+        alert('Successfully created folder: ' + this.new_folder_name);
         this.currentFolders.push(folderInfo);
         this.allFolders.push(folderInfo);
       },
       error:(err) =>{
-        this.fileService.postFolderS3(this.currentFolder + this.new_folder_name + '/').subscribe({
-          next:(res) =>{
+          if(err.status === 200){
             alert('Successfully created folder: ' + this.new_folder_name);
-
-          },
-          error:(error) =>{
-          if(error.status === 200)              
-            alert('Successfully created folder: ' + this.new_folder_name);
-
+            this.currentFolders.push(folderInfo);
+            this.allFolders.push(folderInfo);
           }
-        })
-        this.currentFolders.push(folderInfo);
-        this.allFolders.push(folderInfo);
-
-      }
-    })
+        }
+    });
+    
 
   }
   downloadSelected():void{
@@ -217,41 +199,18 @@ export class FilesDisplayComponent implements OnInit{
     }
     let newFile = this.selectedFile;
 
-
-    this.fileService.deleteFileDynamo(newFile).subscribe({
-      next:(res) =>{
-        this.fileService.deleteFileS3(this.selectedFile).subscribe({
-          next:(result) =>{
-            alert('Successfully deleted file!');
-
-          },
-          error:(err) =>{
-            if(err.status === 204){
-              alert('Successfully deleted file!');
-            }
-          }
-      })
-      },
-      error:(error) =>{
-        if(error.status === 204 || error.status === 0 || error.status === 200){
-          this.fileService.deleteFileS3(this.selectedFile).subscribe({
-            next:(result) =>{
-              alert('Successfully deleted file!');
-
-            },
-            error:(err) =>{
-              if(err.status === 204){
-                alert('Successfully deleted file!');
-
-              }
-            }
-        })
+    this.fileService.deleteFileOverall(newFile).subscribe({
+      next:(result) =>{
+        alert('Successfully deleted file ' + newFile.filename);
         
+      },
+      error:(err) =>{
+        if(err.status === 204 || err.status === 200 || err.status === 0){
+          alert('Successfully deleted file!');
+        }
       }
-    }
-    });
-
-
+    })
+    
   }
 
 

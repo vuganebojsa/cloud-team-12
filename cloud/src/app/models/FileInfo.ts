@@ -10,5 +10,6 @@ export interface FileInfo{
     username?:string,
     bucketName?:string,
     folderName?:string,
-    newPathName?:string
+    newPathName?:string,
+    fileContent?:string
 }
