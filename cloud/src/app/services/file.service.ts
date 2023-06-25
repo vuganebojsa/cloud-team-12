@@ -84,16 +84,6 @@ export class FileService {
     let folder: string = '';
     return folder;
   }
-  uploadFileToFolder(fileInfo: FileInfo, file: any): Observable<any>{
-    let username = this.tokenDecoderService.getDecodedAccesToken()["cognito:username"];
-    fileInfo.username = username;
-    fileInfo.filename =  btoa(fileInfo.username + '-' + fileInfo.folderName + fileInfo.filename);
-    return this.http.post<any>(this.post_file_to_folder_path + 'bivuja-bucket/' + fileInfo.filename, file);
-  }
-  uploadFile(fileInfo: FileInfo, file: any): Observable<any>{
-    return this.http.post<any>(this.s3_bucket_path + 'bivuja-bucket/' + fileInfo.filename, file);
-  }
-
 
   confirmInviteFromFamilyMember(email:string, status:string): Observable<any>{
     return this.http.post<any>(this.confirm_decline_invite_path, {
@@ -113,18 +103,7 @@ export class FileService {
       'familyMember':email
     });
   }
-  postFolder(folder: FolderInfo): Observable<any>{
-    let username = this.tokenDecoderService.getDecodedAccesToken()["cognito:username"];
-    folder.username = username;
-    return this.http.post<any>(this.post_folder_path, folder);
-  }
 
-  postFolderS3(path: string): Observable<any>{
-    let username = this.tokenDecoderService.getDecodedAccesToken()["cognito:username"];
-    path = username + '-' + path
-    
-    return this.http.post<any>(this.post_folder_path_s3, {path: path});
-  }
 
   getFolders(): Observable<FolderInfo[]>{
     let username = this.tokenDecoderService.getDecodedAccesToken()["cognito:username"];
@@ -154,14 +133,6 @@ export class FileService {
       
     return this.http.delete<any>(this.stop_share_file + file_id);
   }
-  uploadFileToDynamoDb(fileInfo: FileInfo): Observable<FileInfo>{
-    
-    fileInfo.bucketName = 'bivuja-bucket';
-    if(fileInfo.folderName === undefined || fileInfo.folderName === null) fileInfo.folderName = ''; 
-    fileInfo.username = this.tokenDecoderService.getDecodedAccesToken()["cognito:username"];
-    console.log(fileInfo);
-    return this.http.post<FileInfo>(this.dynamoPath, fileInfo);
-  }
 
 
   getFiles(): Observable<FileInfo[]>{
@@ -190,25 +161,4 @@ export class FileService {
 
   }
 
-  deleteFileS3(fileInfo:FileInfo): Observable<any>{
-    let bucket = 'bivuja-bucket'
-    let username = this.tokenDecoderService.getDecodedAccesToken()["cognito:username"];
-    let filename = fileInfo.filename;
-    if(fileInfo.folderName !== ''){
-      if(!fileInfo.folderName.endsWith('/')) fileInfo.folderName += '/';
-      fileInfo.username = username;
-      filename =  btoa(fileInfo.username + '-' + fileInfo.folderName + fileInfo.filename);
-    }else{
-      filename = btoa(filename);
-    }
-    return this.http.delete<any>(this.delete_s3_path + bucket + '/' + filename + '/' + fileInfo.id);
-
-  }
-  deleteFileDynamo(file:FileInfo): Observable<any>{
-    let username = this.tokenDecoderService.getDecodedAccesToken()["cognito:username"];
-    let bucket = 'bivuja-bucket'
-
-    return this.http.delete<any>(this.delete_dynamo_path + bucket + '/' + username + '/' + file.id);
-
-  }
 }
