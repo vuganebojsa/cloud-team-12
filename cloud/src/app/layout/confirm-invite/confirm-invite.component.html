@@ -1,1 +1,57 @@
-<p>confirm-invite works!</p>
+<div class="upload">
+
+    <div class="row text-center">
+        <div class="col-12">
+            <h1>Confirm invite for family member</h1>
+        </div>
+    </div>
+    <div class="row text-center">
+        <div class="col-12 text-center my-5">
+            <form upload
+            [formGroup]="uploadForm"
+            >
+            <div class="register-container">
+              <div class="row">
+                    <div class="col-12 center dark-blue-background p-5">
+                        <div class="row text-center">
+                            <div class="col center reesen-big-lead-text join-us mb-3">
+                            Confirm invite for<br>
+                            a family member!
+                            </div>
+                            <div class="col center">
+                                <img src="../../../assets/family.png" alt="Upload" class="logo-image">
+                            </div>
+                        </div>
+                    </div>
+        
+                    <div class="col-12 p-5">
+                          <h1 class="reg-lbl mt-2">Confirm invite for a family member</h1>
+                          <div class="row">
+        
+                            <div class="col m-4">
+                                <div class="mb-3 space">
+                                    <label for="email" class="label-reg mx-2">Email of member</label>
+                                    <input type="text" formControlName="email"  class="form-control" id="email" placeholder="mickey@gmail.com">
+                                </div>
+
+                            </div>
+
+                            </div>
+        
+                        <div class="mb-3 text-center m-4">
+                        <button type="button" (click)="acceptInvite()" class="signup confirmation-button">Accept</button>
+                        </div>
+                        <div class="mb-3 text-center m-4">
+                            <button type="button" (click)="declineInvite()" class="signup confirmation-button">Decline</button>
+                            </div>
+        
+                    </div>
+                </div>
+            </div>
+        </form>
+        </div>
+
+    </div>
+    
+
+</div>

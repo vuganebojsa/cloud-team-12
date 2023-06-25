@@ -11,6 +11,7 @@ import { StopShareFileComponent } from './layout/share/stop-share-file/stop-shar
 import { MoveContentComponent } from './layout/move-content/move-content.component';
 import { RegisterFamilyMemberComponent } from './layout/register-family-member/register-family-member.component';
 import { RegisterFromInviteComponent } from './layout/register-from-invite/register-from-invite.component';
+import { ConfirmInviteComponent } from './layout/confirm-invite/confirm-invite.component';
 
 const routes: Routes = [
   {path:'register', component:RegisterComponent},
@@ -23,6 +24,7 @@ const routes: Routes = [
   {path:'stop-share', component:StopShareFileComponent},
   {path:'move-files', component:MoveContentComponent},
   {path:'register-family-member', component:RegisterFamilyMemberComponent},
+  {path:'confirm-invite', component:ConfirmInviteComponent},
   {path:'**', component:HomeComponent},
   {path:'', component:HomeComponent},
   {path:'', component:HomeComponent},
