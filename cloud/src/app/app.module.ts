@@ -24,6 +24,7 @@ import { StopShareFileComponent } from './layout/share/stop-share-file/stop-shar
 import { MoveContentComponent } from './layout/move-content/move-content.component';
 import { RegisterFamilyMemberComponent } from './layout/register-family-member/register-family-member.component';
 import { RegisterFromInviteComponent } from './layout/register-from-invite/register-from-invite.component';
+import { ConfirmInviteComponent } from './layout/confirm-invite/confirm-invite.component';
 
 
 @NgModule({
@@ -45,7 +46,8 @@ import { RegisterFromInviteComponent } from './layout/register-from-invite/regis
     StopShareFileComponent,
     MoveContentComponent,
     RegisterFamilyMemberComponent,
-    RegisterFromInviteComponent
+    RegisterFromInviteComponent,
+    ConfirmInviteComponent
   ],
 
   imports: [
