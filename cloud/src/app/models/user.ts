@@ -15,5 +15,5 @@ export interface InviteUser{
     username:string,
     password:string,
     birthDate:string,
-    inviterUsername:string
+    inviterEmail:string
 }
