@@ -24,7 +24,7 @@ const routes: Routes = [
   {path:'stop-share', component:StopShareFileComponent},
   {path:'move-files', component:MoveContentComponent},
   {path:'register-family-member', component:RegisterFamilyMemberComponent},
-  {path:'confirm-invite', component:ConfirmInviteComponent},
+  {path:'confirm-invite/:email', component:ConfirmInviteComponent},
   {path:'**', component:HomeComponent},
   {path:'', component:HomeComponent},
   {path:'', component:HomeComponent},
