@@ -7,6 +7,7 @@ import { TokenDecoderService } from './token-decoder.service';
 import { FolderInfo } from '../models/Folder';
 import { Folder } from 'aws-sdk/clients/storagegateway';
 import { SharedFile } from '../models/SharedFile';
+import { InviteUser, User } from '../models/user';
 @Injectable({
   providedIn: 'root'
 })
@@ -29,8 +30,9 @@ export class FileService {
   stop_share_file:string = 'https://zsgxz7y3p6.execute-api.eu-central-1.amazonaws.com/dev/stop-share-file/';
   get_my_shared_files_info:string = 'https://zsgxz7y3p6.execute-api.eu-central-1.amazonaws.com/dev/get-my-shared-files-info/';
   move_file_path:string = ' https://zsgxz7y3p6.execute-api.eu-central-1.amazonaws.com/dev/move-file';
-  family_registration_invite_path:string = '';
-  confirm_decline_invite_path:string = '';
+  family_registration_invite_path:string = 'https://zsgxz7y3p6.execute-api.eu-central-1.amazonaws.com/dev/send-invite/';
+  confirm_decline_invite_path:string = 'https://zsgxz7y3p6.execute-api.eu-central-1.amazonaws.com/dev/confirm-decline-invitation';
+  register_from_invite_path: string = 'https://zsgxz7y3p6.execute-api.eu-central-1.amazonaws.com/dev/register-from-invite';
 
 
   delete_file_overall_path:string = 'https://zsgxz7y3p6.execute-api.eu-central-1.amazonaws.com/dev/delete-file-overall/';
@@ -66,6 +68,8 @@ export class FileService {
     folderInfo.username = username;
     return this.http.post<any>(this.post_folder_overal_path, folderInfo);
   }
+
+  
   deleteFileOverall(fileInfo: FileInfo):Observable<any>{
     let username = this.tokenDecoderService.getDecodedAccesToken()["cognito:username"];
     let filename = fileInfo.filename;
@@ -85,9 +89,17 @@ export class FileService {
     return folder;
   }
 
+
+  registerFromInvite(user:InviteUser): Observable<any>{
+    return this.http.post<any>(this.register_from_invite_path, user);
+
+  }
   confirmInviteFromFamilyMember(email:string, status:string): Observable<any>{
+    let inviterEmail = this.tokenDecoderService.getDecodedAccesToken()["email"];
+
     return this.http.post<any>(this.confirm_decline_invite_path, {
-      'email':email,
+      'inviterEmail':inviterEmail,
+      'familyEmail':email,
       'status':status
     });
   }

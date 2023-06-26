@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { InviteUser, User } from 'src/app/models/user';
 import { AuthenticationService } from 'src/app/services/authentication.service';
+import { FileService } from 'src/app/services/file.service';
 
 @Component({
   selector: 'app-register-from-invite',
@@ -15,17 +16,21 @@ export class RegisterFromInviteComponent {
     email: new FormControl('', [Validators.required, Validators.email]),
     name: new FormControl('', [Validators.required, Validators.minLength(3)]),
     surname: new FormControl('', [Validators.required, Validators.minLength(3)]),
-    password: new FormControl('', [Validators.required, Validators.minLength(10)]),
+    password: new FormControl('', [Validators.required, Validators.minLength(8)]),
     birthDate: new FormControl('', [Validators.required]),
     username: new FormControl('', [Validators.required, Validators.minLength(3)]),
     inviterEmail: new FormControl('', [Validators.required, Validators.minLength(3)]),
   });
 
-  constructor(private router: Router, private authenticationService: AuthenticationService)
+  constructor(private router: Router, private fileService: FileService)
   {
 
   }
   register():void{
+    if(!this.registerForm.valid){
+      alert('Please fulfill all fields');
+      return;
+    }
     let user:InviteUser = {
       email: this.registerForm.value.email,
       name: this.registerForm.value.name,
@@ -39,12 +44,13 @@ export class RegisterFromInviteComponent {
       alert('Invalid username. Please remove the character -.');
       return;
     }
-    this.authenticationService.registerFromInvite(user).subscribe({
+    this.fileService.registerFromInvite(user).subscribe({
       next:(res) =>{
-
+          alert('Successfully registered. wait for confirmation!');
       },
       error:(err)=>{
-
+          console.log(err);
+          alert('Registration failed');
       }
     });
        

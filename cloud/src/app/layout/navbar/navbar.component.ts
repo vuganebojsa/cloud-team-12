@@ -21,7 +21,8 @@ export class NavbarComponent implements OnInit{
   
   ngOnInit(): void {
     this.authenticationService.userState$.subscribe((state) =>{
-      if(state === null || state === undefined)
+      console.log(state)
+      if(state === null || state === undefined || state === false)
         this.loggedIn = false;
       else
         this.loggedIn = true;

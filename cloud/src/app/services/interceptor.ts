@@ -15,6 +15,11 @@ export class Interceptor implements HttpInterceptor {
     request: HttpRequest<any>, 
     next: HttpHandler
     ): Observable<HttpEvent<any>> {
+      if (localStorage.getItem("user") === null) {
+
+        return next.handle(request);
+
+      }
 
       const accessToken: any = localStorage.getItem('user');
       const decTok:any = jwt_decode(accessToken);

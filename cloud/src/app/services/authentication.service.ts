@@ -30,12 +30,13 @@ export class AuthenticationService {
   }
 
   logout():Promise<any>{
-    localStorage.removeItem('user');
+    localStorage.clear();
     this.setUser(null);
     return Auth.signOut();
   }
 
   isLoggedIn(): boolean{
+    console.log(localStorage.getItem('user') !== null && localStorage.getItem('user') !== undefined)
     return localStorage.getItem('user') !== null && localStorage.getItem('user') !== undefined;
   }
 

@@ -60,6 +60,9 @@ export class ShareFileToOtherComponent {
     if(file.folderName !== ''){
       new_foldername = file.folderName + '/' + file.filename;
     }
+    else{
+      new_foldername = file.filename
+    }
     this.uploadForm.get('path').setValue(new_foldername);
 
   }
