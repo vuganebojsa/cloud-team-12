@@ -49,6 +49,10 @@ export class RegisterFromInviteComponent {
           alert('Successfully registered. wait for confirmation!');
       },
       error:(err)=>{
+          if(err.status === 200){
+            alert('Successfully registered. wait for confirmation!');
+            return;
+          }
           console.log(err);
           alert('Registration failed');
       }
