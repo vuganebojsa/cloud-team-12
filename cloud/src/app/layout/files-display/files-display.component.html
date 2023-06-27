@@ -1,0 +1,62 @@
+<div class="row text-center">
+    <div class="col-12 mt-3">
+        <h1>All Files</h1>
+    </div>
+    
+</div>
+<div class="row text-left">
+    <div class="col-6 m-3">
+        <h3>Current Directory: {{this.currentFolder}}</h3>
+    </div> 
+
+</div>
+<div class="row text-left">
+    <div class="col-md-3 col-12 m-3">
+        <button class="certificates-button" style="width: 150px;" (click)="goBackFolder()">Go Back</button>
+
+    </div> 
+    <div class="col-md-3 col-12 m-3">
+        <button class="certificates-button" style="width: 150px;" (click)="uploadToCurrentFolder()">Upload</button>
+
+    </div> 
+   
+    <div class="col-md-5 col-12">
+        <div class="row">
+            <div class="col-md-6 col-12 mt-4">        
+                <input type="text" class="form-control" name="folder" id="folder" placeholder="foldername" [(ngModel)]="new_folder_name">
+            </div>
+            <div class="col-md-6 col-12">        
+                <button class="certificates-button" style="width: 150px;" (click)="createFolder()">Create Folder</button>
+            </div>
+        </div>
+
+    </div> 
+</div>
+<div class="row text-center">
+    <div class="col-md-3 col-12 m-3">
+        <button class="certificates-button" style="width: 150px;" (click)="deleteSelectedFile()">Delete Selected File</button>
+
+    </div>
+    <div class="col-md-3 col-12 m-3">
+        <button class="certificates-button" style="width: 150px;" (click)="downloadSelected()">Download Selected File</button>
+
+    </div>
+</div>
+
+<div class="row text-center" *ngIf="upload_pressed">
+    <div class="col-12">
+        <app-upload-file [folderName]="this.currentFolder"></app-upload-file>
+    </div>
+</div>
+<div *ngIf="isLoaded===true" class="row">
+    
+        <div class="col-lg-3 col-md-5 col-12 m-3" (click)="showFile($event, file)" *ngFor="let file of currentFiles">
+            <app-single-file-display [file]="file" class="hover-folder" ></app-single-file-display>
+        </div>
+    
+        <div class="col-lg-3 col-md-5 col-12 m-3 p-2 hover-bg" (click)="redisplayItemsAndFolder(folder.foldername)" *ngFor="let folder of currentFolders">
+            <app-single-folder-display [folderName]="folder.foldername" class="hover-folder"></app-single-folder-display>
+        </div>
+    
+</div>
+

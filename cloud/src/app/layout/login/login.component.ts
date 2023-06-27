@@ -34,11 +34,13 @@ export class LoginComponent {
 
     this.authenticationService.login(email, password)
     .then((result) =>{
+      console.log(result)
       const keyPrefix = result["keyPrefix"];
       const username = result["storage"][keyPrefix+".LastAuthUser"];
-      localStorage.setItem('user', JSON.stringify(result["storage"][keyPrefix + "." +username+".accessToken"]));
+      localStorage.setItem('userUsername', JSON.stringify(result["storage"][keyPrefix + "." +username+".accessToken"]));
+      localStorage.setItem('user', JSON.stringify(result['signInUserSession']['idToken']['jwtToken']));
       this.authenticationService.setUser(result);
-      this.router.navigate(['upload-file']);
+      this.router.navigate(['']);
     }).catch((error) =>{
         alert(error.message);
 

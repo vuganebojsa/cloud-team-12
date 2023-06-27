@@ -1,0 +1,18 @@
+.hover-folder:hover{
+    cursor: pointer;
+}
+.hover-bg:hover{
+    background-color: rgba(0, 0, 0, 0.4);
+
+}
+.selected_file{
+
+    background-color: rgba(0, 0, 0, 0.6);
+}
+.single-file{
+    border:2px solid black;
+}
+
+.single-file:hover{
+    cursor: pointer;
+}

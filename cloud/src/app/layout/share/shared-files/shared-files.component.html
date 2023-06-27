@@ -1,0 +1,14 @@
+
+<div class="row text-center my-5">
+    <h1>Shared files</h1>
+</div>
+<div class="row">
+    <div class="col-6 mx-3">
+        <h3>Click on the file to download</h3>
+    </div>
+</div>
+<div class="row text-center">
+    <div class="col-lg-3 col-md-5 col-12 m-1" *ngFor="let file of files">
+        <app-single-file-display [file]="file" class="hover-folder" (click)="downloadFile(file)"></app-single-file-display>
+    </div>
+</div>

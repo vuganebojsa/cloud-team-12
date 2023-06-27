@@ -2,8 +2,11 @@ import {  HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Amplify, Auth } from 'aws-amplify';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+
 import { environment } from 'src/environment/environment';
-import { User } from '../models/user';
+import { InviteUser, User } from '../models/user';
 @Injectable({
   providedIn: 'root'
 })
@@ -12,8 +15,8 @@ export class AuthenticationService {
 
   user$ = new BehaviorSubject(null);
   userState$ = this.user$.asObservable();
-
-  constructor() {
+  register_from_invite_url:string = '';
+  constructor(private http: HttpClient) {
     Amplify.configure({
       Auth:environment.cognito
     });
@@ -27,12 +30,13 @@ export class AuthenticationService {
   }
 
   logout():Promise<any>{
-    localStorage.removeItem('user');
+    localStorage.clear();
     this.setUser(null);
     return Auth.signOut();
   }
 
   isLoggedIn(): boolean{
+    console.log(localStorage.getItem('user') !== null && localStorage.getItem('user') !== undefined)
     return localStorage.getItem('user') !== null && localStorage.getItem('user') !== undefined;
   }
 
@@ -63,6 +67,9 @@ export class AuthenticationService {
       }
      
     });
+  }
+  registerFromInvite(user: InviteUser) : Observable<any> { 
+    return this.http.post<any>(this.register_from_invite_url, user);
   }
 
   activate(activateCode: string, userEmail: string): Promise<any>{

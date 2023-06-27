@@ -1,0 +1,30 @@
+
+<div class="row text-center my-3">
+    <h1>Files i Shared</h1>
+</div>
+
+<div class="row text-center m-3">
+    <div class="col-6">
+        <h2>Select a File you want to stop sharing</h2>
+    </div>
+    <div class="col-6">
+        <button class="certificates-button" style="width: 150px;" (click)="stopShare()">Stop Share</button>
+
+    </div>
+
+</div>
+
+<div class="row text-center">
+
+    <div class="col-12 m-1" *ngFor="let file of sharedFiles">
+        <div class="row single-file mx-5 p-3" (click)="selectFile($event, file)">
+            <div class="col-4">
+                <h3><b>File</b>: {{file.path}}</h3>
+            </div>
+            <div class="col-4">
+                <h3><b>Receiver</b>: {{file.receiver}}</h3>
+            </div>
+        </div>
+    </div>
+
+</div>

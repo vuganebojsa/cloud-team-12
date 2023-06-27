@@ -1,0 +1,77 @@
+
+<div class="row text-center m-3" *ngIf="isLoaded && isLoadedFolder">
+
+    <div class="upload">
+
+        <div class="row text-center">
+            <div class="col-12">
+                <h1>Move files from one folder to another</h1>
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="col-md-8 col-12 text-center my-5" >
+                <div class="row">
+                    <div class="col-lg-3 col-md-5 col-12 m-1" *ngFor="let file of files">
+                        <app-single-file-display [file]="file" class="hover-folder" (click)="shareFile(file)"></app-single-file-display>
+                    </div>
+                
+                    <div class="col-lg-4 col-md-4 col-12 m-1 p-2 hover-bg" *ngFor="let folder of folders">
+                        <app-single-folder-display [folderName]="folder.foldername" class="hover-folder" (click)="shareFolder(folder)"></app-single-folder-display>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="col-md-4 col-12 text-center my-5">
+                <form upload
+                [formGroup]="uploadForm"
+                (ngSubmit)="move()">
+                <div class="register-container">
+                  <div class="row">
+                        <div class="col-12 center dark-blue-background p-5">
+                            <div class="row text-center">
+                                <div class="col center reesen-big-lead-text join-us mb-3">
+                                Move,<br>
+                                a file!
+                                </div>
+                                <div class="col center">
+                                    <img src="../../../assets/upload.png" alt="Upload" class="logo-image">
+                                </div>
+                            </div>
+                        </div>
+            
+                        <div class="col-12">
+                              <h1 class="reg-lbl mt-2">Move File to another folder</h1>
+                              <div class="row">
+            
+                                <div class="col">
+                                    <div class="mb-3 space">
+                                        <label for="path" class="label-reg">Selected File Path</label>
+                                        <input type="text" formControlName="path"  class="form-control" id="path" placeholder="pdf/cv.pdf">
+                                    </div>
+                                    <div class="mb-3 space">
+                                        <label for="receiver" class="label-reg">Selected Folder Path</label>
+                                        <input type="text" formControlName="receiver" class="form-control" id="receiver" placeholder="pdf/blatruc">
+                                    </div>
+                                   
+                                </div>
+        
+                                  
+                                </div>
+            
+                            <div class="mb-3 text-center">
+                                <button type="submit" class="signup confirmation-button">Move</button>
+                            </div>
+            
+                        </div>
+                    </div>
+                </div>
+            </form>
+            </div>
+    
+        </div>
+        
+    
+    </div>
+
+
+</div>

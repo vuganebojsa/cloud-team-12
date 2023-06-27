@@ -1,13 +1,15 @@
 export interface FileInfo{
-    id?:number,
+    id?:string,
     filename: string,
     description: string,
     tags: string,
     type: string,
-    size: number,
+    size: string,
     createdAt: string,
     lastModifiedAt: string,
     username?:string,
     bucketName?:string,
-    folderName?:string
+    folderName?:string,
+    newPathName?:string,
+    fileContent?:string
 }
