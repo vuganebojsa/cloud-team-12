@@ -1,5 +1,5 @@
 
-<div class="row text-center m-3">
+<div class="row text-center m-3" *ngIf="isLoaded && isLoadedFolder">
 
     <div class="upload">
 
@@ -9,7 +9,7 @@
             </div>
         </div>
         <div class="row text-center">
-            <div class="col-md-8 col-12 text-center my-5" *ngIf="isLoaded && isLoadedFolder">
+            <div class="col-md-8 col-12 text-center my-5" >
                 <div class="row">
                     <div class="col-lg-3 col-md-5 col-12 m-1" *ngFor="let file of files">
                         <app-single-file-display [file]="file" class="hover-folder" (click)="shareFile(file)"></app-single-file-display>

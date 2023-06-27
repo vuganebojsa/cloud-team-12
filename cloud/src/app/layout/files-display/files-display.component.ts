@@ -23,36 +23,41 @@ export class FilesDisplayComponent implements OnInit{
   selectedFile: FileInfo = null;
   ngOnInit(): void {
 
-    this.fileService.getFiles().subscribe({
-      next:(result) =>{
-          this.allFiles = result;
-          for(let f of this.allFiles){
-            if(f.folderName === ''){
-              this.currentFiles.push(f);
-
-            }
-          }
-
-          this.fileService.getFolders().subscribe({
-            next: (res) =>{
-                this.allFolders = res;
-                console.log(this.allFolders);
-                for(let f of this.allFolders){
-                  if(f.path==='')
-                    this.currentFolders.push(f);
-                }
-                this.isLoaded = true;
-
-            },
-            error:(error) =>{
-
-            }
-          })
-      },
-      error:(err) =>{
-      }
-    })
+    this.loadFilesAndFolders();
     
+  }
+
+  private loadFilesAndFolders() {
+    this.currentFolder = '';
+    this.currentLevel = 0;
+    this.fileService.getFiles().subscribe({
+      next: (result) => {
+        this.allFiles = result;
+        for (let f of this.allFiles) {
+          if (f.folderName === '') {
+            this.currentFiles.push(f);
+
+          }
+        }
+
+        this.fileService.getFolders().subscribe({
+          next: (res) => {
+            this.allFolders = res;
+            console.log(this.allFolders);
+            for (let f of this.allFolders) {
+              if (f.path === '')
+                this.currentFolders.push(f);
+            }
+            this.isLoaded = true;
+
+          },
+          error: (error) => {
+          }
+        });
+      },
+      error: (err) => {
+      }
+    });
   }
 
   public redisplayItemsAndFolder(folder: string): void { 

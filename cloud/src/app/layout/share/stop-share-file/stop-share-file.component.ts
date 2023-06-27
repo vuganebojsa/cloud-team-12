@@ -19,13 +19,16 @@ export class StopShareFileComponent implements OnInit{
   }
   ngOnInit(): void {
     
+    this.getSharedFiles();
+  }
+
+  private getSharedFiles() {
     this.fileService.getMySharedFilesInfo().subscribe({
-      next:(res) =>{
+      next: (res) => {
         this.sharedFiles = res;
         this.isLoaded = true;
       },
-      error:(err) =>{
-
+      error: (err) => {
       }
     });
   }
@@ -38,10 +41,14 @@ export class StopShareFileComponent implements OnInit{
     }
     this.fileService.stopShareFile(this.selectedFile.id).subscribe({
       next:(res) =>{
+        this.getSharedFiles();
         alert('Successfully stoped sharing the file to person:' + this.selectedFile.receiver);
       },
       error:(err) =>{
-
+        if(err.status===200 || err.status===0){
+          this.getSharedFiles();
+          alert('Successfully stoped sharing the file to person:' + this.selectedFile.receiver);
+        }
       }
     })
 

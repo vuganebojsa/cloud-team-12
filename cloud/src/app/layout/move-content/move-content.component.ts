@@ -34,31 +34,37 @@ export class MoveContentComponent {
 
 
   ngOnInit(): void {
-    this.fileService.getFiles().subscribe({
-      next:(res) =>{
-          this.files = res;
-          this.isLoaded = true;
+    this.getFiles();
 
-      },
-      error:(err) =>{
-
-      }
-    })
-
+    this.getFolders();
+  }
+  private getFolders() {
     this.fileService.getFolders().subscribe({
-      next:(res) =>{
+      next: (res) => {
         this.folders = res;
-        for(let f of this.folders){
+        for (let f of this.folders) {
           f.foldername = f.path + f.foldername;
         }
         this.isLoadedFolder = true;
 
       },
-      error:(err) =>{
-        
+      error: (err) => {
       }
-    })
+    });
   }
+
+  private getFiles() {
+    this.fileService.getFiles().subscribe({
+      next: (res) => {
+        this.files = res;
+        this.isLoaded = true;
+
+      },
+      error: (err) => {
+      }
+    });
+  }
+
   shareFile(file: FileInfo):void{
     console.log(file)
     this.selectedFile = file;
@@ -87,10 +93,14 @@ export class MoveContentComponent {
     this.fileService.moveFile(this.selectedFile).subscribe({
       next:(result) =>{
         alert('Successfully moved file');
+        this.getFiles();
+        this.getFolders();
       },
       error:(erro) =>{
         console.log(erro);
         if(erro.status===200 || erro.status === 0){
+          this.getFiles();
+          this.getFolders();
           alert('Successfully moved file');
 
         }
