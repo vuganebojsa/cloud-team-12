@@ -46,11 +46,9 @@ export class RegisterFromInviteComponent {
     }
     this.fileService.registerFromInvite(user).subscribe({
       next:(res) =>{
-          alert('Successfully registered. wait for confirmation!');
       },
       error:(err)=>{
           if(err.status === 200){
-            alert('Successfully registered. wait for confirmation!');
             return;
           }
           console.log(err);

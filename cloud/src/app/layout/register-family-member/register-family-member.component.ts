@@ -34,9 +34,11 @@ export class RegisterFamilyMemberComponent implements OnInit{
     this.fileService.sendInvitationToFamilyMember(this.uploadForm.value.email).subscribe({
       next:(result) =>{
         
+        alert('Successfully sent an invitation to a family member with email: ' + this.uploadForm.value.email);
       },
       error:(err) =>{
         if(err.status === 0 || err.status === 200){
+          alert('Successfully sent an invitation to a family member with email: ' + this.uploadForm.value.email);
         }
       }
     })
