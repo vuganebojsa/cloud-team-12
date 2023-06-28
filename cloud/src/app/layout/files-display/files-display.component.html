@@ -42,10 +42,20 @@
 
     </div>
 </div>
+<div class="row">
+    <div class="col-md-3 col-12 m-3">
+        <button class="certificates-button" style="width: 150px;" (click)="displayInfo()">Display Info</button>
 
+    </div>
+</div>
 <div class="row text-center" *ngIf="upload_pressed">
     <div class="col-12">
         <app-upload-file [folderName]="this.currentFolder"></app-upload-file>
+    </div>
+</div>
+<div class="row text-center" *ngIf="displayInfoPressed">
+    <div class="col-12">
+        <app-display-info [file]="this.selectedFile"></app-display-info>
     </div>
 </div>
 <div *ngIf="isLoaded===true" class="row">

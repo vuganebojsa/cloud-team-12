@@ -25,6 +25,7 @@ import { MoveContentComponent } from './layout/move-content/move-content.compone
 import { RegisterFamilyMemberComponent } from './layout/register-family-member/register-family-member.component';
 import { RegisterFromInviteComponent } from './layout/register-from-invite/register-from-invite.component';
 import { ConfirmInviteComponent } from './layout/confirm-invite/confirm-invite.component';
+import { DisplayInfoComponent } from './layout/display-info/display-info.component';
 
 
 @NgModule({
@@ -47,7 +48,8 @@ import { ConfirmInviteComponent } from './layout/confirm-invite/confirm-invite.c
     MoveContentComponent,
     RegisterFamilyMemberComponent,
     RegisterFromInviteComponent,
-    ConfirmInviteComponent
+    ConfirmInviteComponent,
+    DisplayInfoComponent
   ],
 
   imports: [

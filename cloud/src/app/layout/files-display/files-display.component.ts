@@ -21,6 +21,7 @@ export class FilesDisplayComponent implements OnInit{
   upload_pressed = false;
   currentLevel = 0;
   selectedFile: FileInfo = null;
+  displayInfoPressed:boolean = false;
   ngOnInit(): void {
 
     this.loadFilesAndFolders();
@@ -223,7 +224,9 @@ export class FilesDisplayComponent implements OnInit{
     this.upload_pressed = !this.upload_pressed;
   }
 
-
+  displayInfo():void{
+    this.displayInfoPressed = !this.displayInfoPressed;
+  }
 
   showFile(event:any, file: FileInfo):void{
     let className = 'selected_file';
