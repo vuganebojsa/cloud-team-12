@@ -12,11 +12,14 @@ export class SharedFilesComponent implements OnInit{
 
   isLoaded = false;
   files: FileInfo[];
-
+  displayInfoPressed: boolean = false;
+  selectedFile: FileInfo;
   public constructor(private fileService: FileService, private tokenDecoderService: TokenDecoderService){
     // shared files of other people to me, where i have a button to download
   }
-
+  displayInfo():void{
+    this.displayInfoPressed = !this.displayInfoPressed;
+  }
 
   ngOnInit(): void {
     this.fileService.getSharedFiles().subscribe({
@@ -33,6 +36,7 @@ export class SharedFilesComponent implements OnInit{
   }
 
   downloadFile(file: FileInfo): void{
+    this.selectedFile = file;
     let username = this.tokenDecoderService.getDecodedAccesToken()["cognito:username"];
     let path = file.folderName;
 

@@ -1,0 +1,9 @@
+*{
+    font-size: 20px;
+    font-weight:bold;
+}
+.main-div{
+    padding: 20px;
+    margin:50px;
+    border:2px solid black;
+}

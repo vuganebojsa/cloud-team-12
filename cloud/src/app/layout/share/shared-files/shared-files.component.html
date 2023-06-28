@@ -7,6 +7,17 @@
         <h3>Click on the file to download</h3>
     </div>
 </div>
+<div class="row">
+    <div class="col-6 mx-3">
+        <button class="certificates-button" style="width: 150px;" (click)="displayInfo()">Display Info</button>
+
+    </div>
+</div>
+<div class="row text-center" *ngIf="displayInfoPressed">
+    <div class="col-12">
+        <app-display-info [file]="this.selectedFile"></app-display-info>
+    </div>
+</div>
 <div class="row text-center">
     <div class="col-lg-3 col-md-5 col-12 m-1" *ngFor="let file of files">
         <app-single-file-display [file]="file" class="hover-folder" (click)="downloadFile(file)"></app-single-file-display>

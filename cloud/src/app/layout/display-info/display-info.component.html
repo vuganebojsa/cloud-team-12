@@ -1,0 +1,29 @@
+<div class="main-div" *ngIf="file !== null && file !== undefined">
+<div class="row text-center">
+
+    <h1>File Info</h1>
+</div>
+<div class="row text-center">
+    <div class="col-md-3 col-12 m-3">
+        <div>Filename: {{file.filename}}</div>
+    </div>
+    <div class="col-md-3 col-12 m-3">
+        Description: {{file.description}}
+    </div>
+    <div class="col-md-3 col-12 m-3">
+        Size: {{file.size}} KB
+    </div>
+</div>
+
+<div class="row text-center">
+    <div class="col-md-3 col-12 m-3">
+        <div>Type: {{file.type}}</div>
+    </div>
+    <div class="col-md-3 col-12 m-3">
+        Tags: {{file.tags}}
+    </div>
+    <div class="col-md-3 col-12 m-3">
+        Created At: {{file.createdAt}}
+    </div>
+</div>
+</div>
